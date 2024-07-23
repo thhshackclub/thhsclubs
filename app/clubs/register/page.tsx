@@ -14,6 +14,7 @@ export default function Page() {
 	async function handleSubmit(e: { preventDefault: () => void; }) {
 		e.preventDefault();
 		// console.log(name, description, logo);
+		if(url == 'register') {alert(`Invalid URL. Club URL cannot be "${url}".`); return;}
 		await write("clubs", {name: name, description: description, logo: logo, type: type, url: url})
 			.then((err) => {if(err) {
 				alert(err);
