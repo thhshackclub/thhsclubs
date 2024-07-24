@@ -6,6 +6,7 @@ import db from '@/firebase/firestore/firestore';
 export default function AdminMenu(props: { clubId: string; }) {
 	const [meetingDate, setMeetingDate] = useState(new Date());
 	const [meetingList, setMeetingList] = useState([]);
+	const [members, setMembers] = useState([])
 
 	async function handleSubmit(e: { preventDefault: () => void; }) {
 		e.preventDefault()
@@ -21,10 +22,18 @@ export default function AdminMenu(props: { clubId: string; }) {
 
 			// console.log("Document data:", docSnap.data()['meetings'][0]['seconds']);
 			let hold = [];
-			for(let i = 0; i < docSnap.data()['meetings'].length; i++) {
+			// @ts-ignore
+		for(let i = 0; i < docSnap.data()['meetings'].length; i++) {
+				// @ts-ignore
 				hold.push(docSnap.data()['meetings'][i].toDate().toString())
 			}
-			setMeetingList(hold)
+			// @ts-ignore
+		setMeetingList(hold)
+
+		hold = [];
+		// @ts-ignore
+		setMembers(docSnap.data()['members'])
+
 
 	}
 
@@ -55,11 +64,21 @@ export default function AdminMenu(props: { clubId: string; }) {
 				/>
 				<button>Submit</button>
 			</form>
-
 			<div>
 				<h1>Meeting List</h1>
+				<div className={'grid grid-cols-2'}>
+					<div>
 				{meetingList.map((meeting) => (
 					<p>{meeting}</p>
+				))}
+
+					</div>
+				</div>
+			</div>
+			<div>
+				{members.map((member) => (
+					console.log(member),
+					<p>{member['uid']}</p>
 				))}
 			</div>
 		</section>
