@@ -13,7 +13,7 @@ export default function Navbar() {
 			// User is signed in, see docs for a list of available properties
 			// https://firebase.google.com/docs/reference/js/auth.user
 			// @ts-ignore
-			setUser(user.displayName);
+			setUser(user.uid);
 			// @ts-ignore
 			//  user.uid;
 		} else {
