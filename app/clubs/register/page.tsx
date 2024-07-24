@@ -1,21 +1,35 @@
 'use client'
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import write from '@/firebase/firestore/write';
+import {getAuth, onAuthStateChanged} from 'firebase/auth';
+import getLoggedIn from '@/components/getLoggedIn';
 
 export default function Page() {
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
-	const [logo, setLogo] = useState("");
-	const [type, setType] = useState("");
+	const [logo, setLogo] = useState("https://markleisherproductions.com/wp-content/uploads/2021/01/logo-placeholder-png-2.png");
+	const [type, setType] = useState("Club");
 	const [url, setUrl] = useState('');
 	const [error, setError] = useState(null);
 
+	const auth = getAuth();
+	let uid;
+	onAuthStateChanged(auth, (user) => {
+		if (user) {
+
+			uid = user.uid;
+
+		}
+	});
 
 	async function handleSubmit(e: { preventDefault: () => void; }) {
+
+
+
 		e.preventDefault();
 		// console.log(name, description, logo);
 		if(url == 'register') {alert(`Invalid URL. Club URL cannot be "${url}".`); return;}
-		await write("clubs", {name: name, description: description, logo: logo, type: type, url: url})
+		await write("clubs", {name: name, description: description, logo: logo, type: type, url: url, admin: uid, members: [{uid: uid, role: 'admin'}]})
 			.then((err) => {if(err) {
 				alert(err);
 			} else alert("Club Registered")})

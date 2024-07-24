@@ -1,5 +1,5 @@
 'use client'
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { User } from 'react-feather'
 
@@ -12,8 +12,10 @@ export default function Navbar() {
 		if (user) {
 			// User is signed in, see docs for a list of available properties
 			// https://firebase.google.com/docs/reference/js/auth.user
-			const uid = user.uid;
+			// @ts-ignore
 			setUser(user.displayName);
+			// @ts-ignore
+			//  user.uid;
 		} else {
 			// User is signed out
 			// ...
@@ -23,7 +25,7 @@ export default function Navbar() {
 	return (
 		<section className={'w-screen bg-green-200 flex justify-around'}>
 			<p>navbar</p>
-			
+
 			<p>{user}</p>
 			<User/>
 		</section>

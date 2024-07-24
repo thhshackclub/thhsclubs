@@ -5,12 +5,14 @@ import { useParams } from "next/navigation";
 import {useEffect, useState} from 'react';
 import {getDocs} from '@firebase/firestore';
 import {setLazyProp} from 'next/dist/server/api-utils';
+import Register from '@/components/clubs/Register';
 
 export default function Page({ params }: { params: { slug: string } }) {
 
 	const [club, setClub] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [clubNotFound, setClubNotFound] = useState(false);
+	const [clubId, setClubId] = useState();
 
 	async function search() {
 		const q = query(collection(db, 'clubs'), where('url', '==', params.slug));
@@ -18,6 +20,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 		querySnapshot.forEach((doc) => {
 			// doc.data() is never undefined for query doc snapshots
 			console.log(doc.id, " => ", doc.data());
+			setClubId(doc.id)
 			setClub(doc.data())
 			if (Object.keys(doc.data()).length === 0) {
 				setClubNotFound(true)
@@ -42,8 +45,13 @@ export default function Page({ params }: { params: { slug: string } }) {
 							<img src={club['logo']} alt={`${club['name']} logo`}/>
 							<p>{club['description']}</p>
 							<p>Club Type: <span>{club['type'].toUpperCase()}</span></p>
+
+							<Register clubId={clubId}/>
+
 						</div>
+
 					}
+
 				</div>
 			}
 
