@@ -93,7 +93,7 @@ export default function AdminMenu(props: { clubId: string; }) {
 						<div>
 							{/*{meeting['present'].map((member, j) => { return <li key={j}><MemberName uid={member} clubId={props.clubId}/></li> }) }*/}
 							{members.map((member, i) => (
-								<MemberName clubId={props.clubId} uid={member['uid']} key={i}/>
+								<MemberName meetingId={moment(meeting['date'].split( 'at' )[0]).format('MMDDYY')} clubId={props.clubId} uid={member['uid']} key={i}/>
 							))}
 						</div>
 						{/*<button>Mark All Present</button>*/}

@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react';
 import moment from 'moment';
 
 export default function  MemberName(props: {
+	meetingId: string;
 	displayOnly?: boolean;
 	uid: string, clubId: string }) {
 	const [name, setName] = useState('');
@@ -22,32 +23,16 @@ export default function  MemberName(props: {
 		}
 
 		async function getAttendance() {
-			// 	see if person was here
-			const docRef = doc(db, "clubs", props.clubId);
-			const docSnap = await getDoc(docRef);
-
-			let hold = [];
-			// @ts-ignore
-
-			let meetings = docSnap.data()['meetings']
-
-			for(let i = 0; i < meetings.length; i++) {
-				// @ts-ignore
-				for(let j = 0; j < meetings[i]['attendance'].length; j++) {
-					if (meetings[i]['attendance'][j]['uid'] === props.uid) {
-						console.log(meetings[i]['date'])
-						hold.push(meetings[i]['date'].toDate().toString())
-					}
-				}
-			}
-			// @ts-ignore
-			setAttendance(hold)
+			console.log(props.meetingId)
+			const docSnap = await getDoc(doc(db, `clubs/${props.clubId}/attendance`, props.meetingId));
+			console.log(docSnap.data())
+			docSnap.data()['present'].indexOf(props.uid) !== -1 ? setChecked(true) : setChecked(false);
 		}
 
 
 
 		read()
-		// getAttendance()
+		getAttendance()
 
 	}, []);
 
