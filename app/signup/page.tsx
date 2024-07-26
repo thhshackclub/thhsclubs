@@ -10,7 +10,7 @@ function Page() {
 	const [fName, setFName] = React.useState('')
 	const [lName, setLName] = React.useState('')
 	const [osis, setOsis] = React.useState(0)
-	const [accountType, setAccountType] = React.useState('')
+	const [accountType, setAccountType] = React.useState('student')
 	const [grade, setGrade] = React.useState(0)
 
 	const router = useRouter()
@@ -72,7 +72,7 @@ function Page() {
 					<p>Account Type</p>
 					<select value={accountType} onChange={(e)=>setAccountType(e.target.value)}>
 						<option value={"student"}>Student</option>
-						<option value={"executive"}>Club Executive</option>
+						{/*<option value={"executive"}>Club Executive</option>*/}
 						<option value={"su"}>Student Union</option>
 						<option value={"faculty"}>Faculty</option>
 					</select>

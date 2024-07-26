@@ -29,7 +29,7 @@ export default function Page() {
 		e.preventDefault();
 		// console.log(name, description, logo);
 		if(url == 'register') {alert(`Invalid URL. Club URL cannot be "${url}".`); return;}
-		await write("clubs", {name: name, description: description, logo: logo, type: type, url: url, admin: uid, members: [{uid: uid, role: 'admin'}]})
+		await write("clubs", {name: name, description: description, logo: logo, type: type, url: url, admin: uid, members: [{uid: uid, role: 'admin'}], meetings: []})
 			.then((err) => {if(err) {
 				alert(err);
 			} else alert("Club Registered")})

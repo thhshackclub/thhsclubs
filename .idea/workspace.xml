@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="151472cc-eec5-46b4-a93d-d31f0da64256" name="Changes" comment="set up login and started data storage">
+      <change afterPath="$PROJECT_DIR$/components/MemberName.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/clubs/[slug]/AdminMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/clubs/[slug]/AdminMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clubs/register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/clubs/register/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/signup/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/signup/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
       </list>
     </option>
@@ -125,6 +131,8 @@
       <workItem from="1721173434320" duration="8011000" />
       <workItem from="1721257105134" duration="320000" />
       <workItem from="1721773559807" duration="11436000" />
+      <workItem from="1721944168880" duration="56000" />
+      <workItem from="1721945593398" duration="4700000" />
     </task>
     <task id="LOCAL-00001" summary="set up login and started data storage">
       <option name="closed" value="true" />
