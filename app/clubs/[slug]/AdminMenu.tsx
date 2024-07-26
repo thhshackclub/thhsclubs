@@ -49,8 +49,8 @@ export default function AdminMenu(props: { clubId: string; }) {
 	async function handleAttendanceSubmission(meeting:string) {
 		for (let i in members) {
 			let ele = document.getElementById(members[i]['uid']) as HTMLInputElement
-			console.log(ele.name)
-			if (ele.name == 'true') {
+			// console.log(document.getElementById(members[i]['uid']).id)
+			if (document.getElementById(members[i]['uid']+'true')) {
 				await updateDoc(doc(db, 'clubs', props.clubId, 'attendance', meeting), {
 					present: arrayUnion(members[i]['uid'])
 				})

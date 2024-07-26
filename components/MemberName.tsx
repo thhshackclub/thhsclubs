@@ -55,8 +55,8 @@ export default function  MemberName(props: {
 	if (props.displayOnly) return <div>
 		<p>{name}</p>
 	</div>
-	else return <form>
-		<input type={'checkbox'} name={name} id={`${props.uid}`} value={checked} checked={checked} onChange={() => setChecked(!checked)} />
+	else return <div>
+		<input type={'checkbox'} name={name} id={`${props.uid}${checked?'true':''}`} checked={checked} onChange={() => setChecked(!checked)} />
 		<label>{name}</label>
-	</form>
+	</div>
 }
