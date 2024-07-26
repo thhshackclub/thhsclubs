@@ -1,8 +1,8 @@
 import {Suspense, useEffect, useState} from 'react';
 import write from '@/firebase/firestore/write';
-import {arrayUnion, doc, getDoc, getDocs, updateDoc} from '@firebase/firestore';
+import {arrayUnion, doc, getDoc, getDocs, setDoc, updateDoc} from '@firebase/firestore';
 import db from '@/firebase/firestore/firestore';
-import {collection, query, where} from 'firebase/firestore';
+import {addDoc, collection, query, where} from 'firebase/firestore';
 import MemberName from '@/components/MemberName';
 import moment from 'moment';
 
@@ -10,47 +10,54 @@ export default function AdminMenu(props: { clubId: string; }) {
 	const [meetingDate, setMeetingDate] = useState(new Date());
 	const [meetingList, setMeetingList] = useState([]);
 	const [members, setMembers] = useState([])
-	const packet = doc(db, 'clubs', props.clubId)
 
 	async function handleSubmit(e: { preventDefault: () => void; }) {
 		e.preventDefault()
-		await updateDoc(packet, {
-			meetings: arrayUnion({date: meetingDate, attendance: []})
+		await setDoc(doc(db, 'clubs', props.clubId, 'attendance', moment(meetingDate).format('MMDDYY')), {
+			date: meetingDate, present: []
 		})
 		getMeetingList()
 	}
 
 	async function getMeetingList() {
-		const docRef = doc(db, "clubs", props.clubId);
-		const docSnap = await getDoc(docRef);
+		const docSnap = await getDocs(collection(db, `clubs/${props.clubId}/attendance`));
+		let hold:any = [];
 
-			// console.log("Document data:", docSnap.data()['meetings'][0]['seconds']);
-			let hold = [];
-			// @ts-ignore
-		for(let i = 0; i < docSnap.data()['meetings'].length; i++) {
-				// @ts-ignore
-				hold.push(docSnap.data()['meetings'][i]['date'].toDate().toString())
-			}
-			// @ts-ignore
+		docSnap.forEach((doc) => {
+			hold.push({date: doc.data()['date'].toDate().toString(), present: doc.data()['present']})
+		})
 		setMeetingList(hold)
 
 		hold = [];
-		// @ts-ignore
-		setMembers(docSnap.data()['members'])
+	}
 
+	async function getMembers() {
+		const docSnap = await getDocs(collection(db, `clubs/${props.clubId}/members`));
 
+		let hold:any = []
+		docSnap.forEach((doc) => {
+			hold.push({uid: doc.data()['uid'], role: doc.data()['role']})
+		})
+		setMembers(hold)
 	}
 
 	useEffect(() => {
 		getMeetingList()
+		getMembers()
 	}, []);
 
-	async function handleCheckbox(meetingNumber:number, user:number) {
-		console.log('checked')
-		await updateDoc(packet, {
-			meetings: arrayUnion({uid: members[user]['uid'], present: true})
-		})
-	}
+	async function handleAttendanceSubmission(meeting:string) {
+		for (let i in members) {
+			let ele = document.getElementById(members[i]['uid']) as HTMLInputElement
+			console.log(ele.name)
+			if (ele.name == 'true') {
+				await updateDoc(doc(db, 'clubs', props.clubId, 'attendance', meeting), {
+					present: arrayUnion(members[i]['uid'])
+				})
+				}
+			}
+		}
+
 
 	return (
 		<section className={'absolute w-screen border-2 mx-2'}>
@@ -81,28 +88,33 @@ export default function AdminMenu(props: { clubId: string; }) {
 				<div className={'grid grid-cols-2'}>
 					<div>
 				{meetingList[0] ? meetingList.map((meeting, i) => (
-					<p key={i}>{meeting}</p>
-				)): <p>No meetings scheduled.</p>}
+					<div>
+						<p key={i}>{meeting['date']}</p>
+						<div>
+							{/*{meeting['present'].map((member, j) => { return <li key={j}><MemberName uid={member} clubId={props.clubId}/></li> }) }*/}
+							{members.map((member, i) => (
+								<MemberName clubId={props.clubId} uid={member['uid']} key={i}/>
+							))}
+						</div>
+						{/*<button>Mark All Present</button>*/}
+						<button onClick={(e) => {
+							e.preventDefault()
+							handleAttendanceSubmission(moment(meeting['date'].split( 'at' )[0]).format('MMDDYY'))}}>Submit</button>
+					</div>
+				)) : <p>No meetings scheduled.</p>}
 
 					</div>
 				</div>
 			</div>
 			<h1>Members</h1>
-			<div className={'grid gap-4 grid-cols-10'}>
-				{meetingList.map((meeting, i) => {return <div key={i}>
-					<p>{moment(meeting).format('MM/DD/YY')}</p>
-					{members.map((member, j) => {
-						return <div key={j}>
-							<input type={'checkbox'} onChange={handleCheckbox(i, j)}/>
-						</div>
-					})}
-				</div>})}
-			</div>
-			{/*<div>*/}
-			{/*	{members.map((member, i) => (*/}
-			{/*		<MemberName clubId={props.clubId} uid={member['uid']} key={i}/>*/}
-			{/*	))}*/}
+			{/*<div className={'grid gap-4 grid-cols-10'}>*/}
+			{/*	{members.map( (member, i) => {return <div key={i}>{member['uid']}</div>} )}*/}
 			{/*</div>*/}
+			<div>
+				{members.map((member, i) => (
+					<MemberName displayOnly clubId={props.clubId} uid={member['uid']} key={i}/>
+				))}
+			</div>
 		</section>
 	)
 }

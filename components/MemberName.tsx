@@ -4,9 +4,12 @@ import {doc, getDoc, getDocs} from '@firebase/firestore';
 import {useEffect, useState} from 'react';
 import moment from 'moment';
 
-export default function  MemberName(props: { uid: string, clubId: string }) {
+export default function  MemberName(props: {
+	displayOnly?: boolean;
+	uid: string, clubId: string }) {
 	const [name, setName] = useState('');
 	const [attendance, setAttendance] = useState([]);
+	const [checked, setChecked] = useState(false);
 	useEffect(() => {
 		async function read() {
 			const q = query(collection(db, 'users'), where('uid', '==', props.uid));
@@ -41,16 +44,19 @@ export default function  MemberName(props: { uid: string, clubId: string }) {
 			setAttendance(hold)
 		}
 
+
+
 		read()
-		getAttendance()
+		// getAttendance()
 
 	}, []);
 
 
-	return <div>
+	if (props.displayOnly) return <div>
 		<p>{name}</p>
-		{attendance.map((date, i) => {
-			return <p key={i}>{moment(date).format('MMM D YY')}</p>;
-		} )}
 	</div>
+	else return <form>
+		<input type={'checkbox'} name={name} id={`${props.uid}`} value={checked} checked={checked} onChange={() => setChecked(!checked)} />
+		<label>{name}</label>
+	</form>
 }
