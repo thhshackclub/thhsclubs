@@ -5,6 +5,7 @@ import db from '@/firebase/firestore/firestore';
 import {addDoc, collection, query, where} from 'firebase/firestore';
 import MemberName from '@/components/MemberName';
 import moment from 'moment';
+import {arrayRemove} from '@firebase/firestore/lite';
 
 export default function AdminMenu(props: { clubId: string; }) {
 	const [meetingDate, setMeetingDate] = useState(new Date());
@@ -48,11 +49,15 @@ export default function AdminMenu(props: { clubId: string; }) {
 
 	async function handleAttendanceSubmission(meeting:string) {
 		for (let i in members) {
-			let ele = document.getElementById(members[i]['uid']) as HTMLInputElement
-			// console.log(document.getElementById(members[i]['uid']).id)
-			if (document.getElementById(members[i]['uid']+'true')) {
+			if (document.getElementById(meeting+members[i]['uid']+'true')) {
 				await updateDoc(doc(db, 'clubs', props.clubId, 'attendance', meeting), {
 					present: arrayUnion(members[i]['uid'])
+				})
+				}
+			if (document.getElementById(meeting+members[i]['uid']+'false')) {
+					console.log(members[i]['uid'])
+				await updateDoc(doc(db, 'clubs', props.clubId, 'attendance', meeting), {
+					present: arrayRemove(members[i]['uid'])
 				})
 				}
 			}
@@ -91,7 +96,6 @@ export default function AdminMenu(props: { clubId: string; }) {
 					<div>
 						<p key={i}>{meeting['date']}</p>
 						<div>
-							{/*{meeting['present'].map((member, j) => { return <li key={j}><MemberName uid={member} clubId={props.clubId}/></li> }) }*/}
 							{members.map((member, i) => (
 								<MemberName meetingId={moment(meeting['date'].split( 'at' )[0]).format('MMDDYY')} clubId={props.clubId} uid={member['uid']} key={i}/>
 							))}

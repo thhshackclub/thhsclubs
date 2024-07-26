@@ -25,14 +25,15 @@ export default function  MemberName(props: {
 		async function getAttendance() {
 			console.log(props.meetingId)
 			const docSnap = await getDoc(doc(db, `clubs/${props.clubId}/attendance`, props.meetingId));
-			console.log(docSnap.data())
-			docSnap.data()['present'].indexOf(props.uid) !== -1 ? setChecked(true) : setChecked(false);
+			// console.log(docSnap.data())
+			// @ts-ignore
+			docSnap.data()['present'].includes(props.uid) ? setChecked(true) : setChecked(false);
 		}
 
 
 
-		read()
-		getAttendance()
+		read().then(r => {})
+		getAttendance().then(r => {})
 
 	}, []);
 
@@ -41,7 +42,7 @@ export default function  MemberName(props: {
 		<p>{name}</p>
 	</div>
 	else return <div>
-		<input type={'checkbox'} name={name} id={`${props.uid}${checked?'true':''}`} checked={checked} onChange={() => setChecked(!checked)} />
+		<input type={'checkbox'} name={name} id={`${props.meetingId}${props.uid}${checked?'true':'false'}`} checked={checked} onChange={() => setChecked(!checked)} />
 		<label>{name}</label>
 	</div>
 }
