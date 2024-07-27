@@ -68,7 +68,7 @@ export default function AdminMenu(props: { clubId: string; }) {
 
 
 	return (
-		<section className={'absolute w-screen border-2 mx-2'}>
+		<section className={'w-screen border-2 mx-2'}>
 			<h1>Admin Menu</h1>
 			<h2>Meetings</h2>
 			<form onSubmit={handleSubmit}>

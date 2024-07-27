@@ -10,6 +10,7 @@ import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import AdminMenu from '@/app/clubs/[slug]/AdminMenu';
 import Loading from '@/components/Loading';
 import MemberName from '@/components/MemberName';
+import Description from '@/app/clubs/[slug]/Description';
 
 export default function Page({ params }: { params: { slug: string } }) {
 
@@ -22,6 +23,8 @@ export default function Page({ params }: { params: { slug: string } }) {
 
 	const [uid, setUid] = useState()
 	const [adminMenuOpened, setAdminMenuOpened] = useState(false)
+
+	const [editedDescription, setEditedDescription] = useState()
 
 	const auth = getAuth();
 	onAuthStateChanged(auth, (user) => {
@@ -40,7 +43,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 		docSnap.data()
 		setClubId(docSnap.id)
 		setClub(docSnap.data())
-		console.log(docSnap.data()['admins'])
+		setEditedDescription(club['description'])
 		setAdminIds(docSnap.data()['admins'])
 	}
 
@@ -63,9 +66,12 @@ export default function Page({ params }: { params: { slug: string } }) {
 		}
 
 	useEffect(() => {
-		searchClubInfo()
 		searchAdmins()
 	}, []);
+
+	useEffect(() => {
+		searchClubInfo()
+	}, [adminMenuOpened]);
 
 	return (
 
@@ -81,10 +87,10 @@ export default function Page({ params }: { params: { slug: string } }) {
 
 							{/*info*/}
 							<div className={'mt-[2.5rem]'}>
-								<p className={'text-lg'}>{club['description']}</p>
+								<Description adminMenuOpened={adminMenuOpened} desc={club['description']} clubId={club['url']}/>
 
 								<div className={'my-10'}>
-								<h2>Executive Board</h2>
+									<h2>Executive Board</h2>
 
 								{admins.map((adminId,i ) => {
 								return <li key={i} className={'flex items-baseline gap-2'}>
