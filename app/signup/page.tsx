@@ -22,7 +22,7 @@ function Page() {
 		const { result, error } = await signUp(email, password, fName, lName, osis, accountType, grade);
 
 		if (error) {
-			return console.log(error)
+			return alert(error)
 		}
 
 		// else successful

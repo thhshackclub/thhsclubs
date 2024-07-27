@@ -11,6 +11,8 @@ import AdminMenu from '@/app/clubs/[slug]/AdminMenu';
 import Loading from '@/components/Loading';
 import MemberName from '@/components/MemberName';
 import Description from '@/app/clubs/[slug]/Description';
+import Tags from '@/components/clubs/Tags';
+import Admins from '@/app/clubs/[slug]/Admins';
 
 export default function Page({ params }: { params: { slug: string } }) {
 
@@ -79,7 +81,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 			{clubNotFound ? <h1>Club Not Found</h1> :
 				<div>
 					{loading ? <Loading/>:
-						<div className={'grid grid-cols-2 mx-48'}>
+						<div className={'grid grid-cols-2 mx-24 xl:mx-48 gap-4 lg:gap-0'}>
 							<div>
 								<h1 className={'text-4xl'}>{club['name']}</h1>
 								<img className={'rounded-xl w-96'} src={club['logo']} alt={`${club['name']} logo`}/>
@@ -89,19 +91,9 @@ export default function Page({ params }: { params: { slug: string } }) {
 							<div className={'mt-[2.5rem]'}>
 								<Description adminMenuOpened={adminMenuOpened} desc={club['description']} clubId={club['url']}/>
 
-								<div className={'my-10'}>
-									<h2>Executive Board</h2>
+								<Admins admins={admins} adminMenuOpened={adminMenuOpened} clubId={club['url']}/>
 
-								{admins.map((adminId,i ) => {
-								return <li key={i} className={'flex items-baseline gap-2'}>
-									<p className={'text-xl'}><MemberName  uid={adminId['uid']} displayOnly/></p>
-									<span>{adminId['title']}</span>
-								</li>
-							})}
-								</div>
-
-
-								<p>Club Type: <span>{club['type']}</span></p>
+								<Tags tagList={club['tags']}/>
 							</div>
 
 							<div>

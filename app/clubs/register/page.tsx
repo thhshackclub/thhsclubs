@@ -62,10 +62,11 @@ export default function Page() {
 							setLogo(e.target.value)
 						}} placeholder="Logo URL"/>
 					</label>
+
 					<label htmlFor={'tags'}>
 						<p>Tags</p>
-						<Select isMulti isSearchable isClearable options={tagList} onChange={(tags)=>setTags(tags['value'].value())}/>
-
+						<Select isMulti isSearchable isClearable isOptionDisabled={() => tags.length >= 4} options={tagList} onChange={(e)=>setTags(e)}/>
+						<p>Select up to 4.</p>
 					</label>
 					<label htmlFor="description">
 						<p>Club URL</p>

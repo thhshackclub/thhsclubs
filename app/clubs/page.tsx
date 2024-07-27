@@ -5,6 +5,7 @@ import {collection, getDocs} from 'firebase/firestore';
 import db from '@/firebase/firestore/firestore';
 import DeleteItem from '@/components/DeleteItem';
 import Register from '@/components/clubs/Register';
+import Tags from '@/components/clubs/Tags';
 
 export default function Page() {
 	const [clubs, setClubs] = useState([])
@@ -30,7 +31,9 @@ export default function Page() {
 						<div className={'line-clamp-3'}>
 							<p className={''}>{club['description']}</p>
 						</div>
-						<p className={'rounded-3xl border-2 bg-yellow-200 w-fit px-4 py-1'}>{club['type']}</p>
+						<div>
+							<Tags tagList={club['tags']}/>
+						</div>
 					</div>
 					</a>
 				))}
