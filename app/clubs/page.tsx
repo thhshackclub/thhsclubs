@@ -19,18 +19,22 @@ export default function Page() {
 	}, [])
 
 	return (
-		<div className="border w-96 text-center p-4">
+		<div className="border px-10 text-center p-4">
 			<h1>Clubs</h1>
-			<ul>
+			<section className={'grid gap-4 grid-cols-3'}>
 				{clubs.map((club) => (
-					<li key={club['id']} className="border-t-2 p-2">
+					<a href={`/clubs/${club['url']}`}>
+					<div key={club['id']} className="border-2 border-black rounded-2xl p-2">
 						<h2>{club['name']}</h2>
-						<p>{club['description']}</p>
-						<p>{club['type']}</p>
-						<img src={club['logo']} alt={`${club['name']} Logo`}/>
-					</li>
+						<img src={club['logo']} alt={`${club['name']} Logo`} className={'w-64 mx-auto rounded-3xl'}/>
+						<div className={'line-clamp-3'}>
+							<p className={''}>{club['description']}</p>
+						</div>
+						<p className={'rounded-3xl border-2 bg-yellow-200 w-fit px-4 py-1'}>{club['type']}</p>
+					</div>
+					</a>
 				))}
-			</ul>
+			</section>
 		</div>
 	)
 }

@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="151472cc-eec5-46b4-a93d-d31f0da64256" name="Changes" comment="set up login and started data storage">
+      <change afterPath="$PROJECT_DIR$/components/Loading.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/clubs/[slug]/AdminMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/clubs/[slug]/AdminMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clubs/[slug]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/clubs/[slug]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/clubs/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/clubs/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/MemberName.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/MemberName.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/clubs/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/clubs/Register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/navigation/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/navigation/Navbar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,6 +133,7 @@
       <workItem from="1721773559807" duration="11436000" />
       <workItem from="1721944168880" duration="56000" />
       <workItem from="1721945593398" duration="15004000" />
+      <workItem from="1722051855624" duration="4617000" />
     </task>
     <task id="LOCAL-00001" summary="set up login and started data storage">
       <option name="closed" value="true" />

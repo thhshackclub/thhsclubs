@@ -3,11 +3,13 @@ import { collection, query, where } from "firebase/firestore";
 import db from '@/firebase/firestore/firestore';
 import { useParams } from "next/navigation";
 import {useEffect, useState} from 'react';
-import {getDocs} from '@firebase/firestore';
+import {doc, getDoc, getDocs} from '@firebase/firestore';
 import {setLazyProp} from 'next/dist/server/api-utils';
 import Register from '@/components/clubs/Register';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import AdminMenu from '@/app/clubs/[slug]/AdminMenu';
+import Loading from '@/components/Loading';
+import MemberName from '@/components/MemberName';
 
 export default function Page({ params }: { params: { slug: string } }) {
 
@@ -15,7 +17,9 @@ export default function Page({ params }: { params: { slug: string } }) {
 	const [loading, setLoading] = useState(true);
 	const [clubNotFound, setClubNotFound] = useState(false);
 	const [clubId, setClubId] = useState();
+	const [admins, setAdmins] = useState([]);
 	const [adminIds, setAdminIds] = useState([]);
+
 	const [uid, setUid] = useState()
 	const [adminMenuOpened, setAdminMenuOpened] = useState(false)
 
@@ -29,31 +33,38 @@ export default function Page({ params }: { params: { slug: string } }) {
 		}
 	});
 
-	async function search() {
-		const q = query(collection(db, 'clubs'), where('url', '==', params.slug));
-		const querySnapshot = await getDocs(q);
-		querySnapshot.forEach((doc) => {
-			// doc.data() is never undefined for query doc snapshots
-			console.log(doc.id, " => ", doc.data());
-			setClubId(doc.id)
-			setClub(doc.data())
-			let hold = [];
-			for(let i = 0; i < doc.data()['members'].length; i++) {
-				if (doc.data()['members'][i].role === 'admin') {
-					hold.push(doc.data()['members'][i].uid)
-				}
-			}
-			setAdminIds(hold)
-			if (Object.keys(doc.data()).length === 0) {
-				setClubNotFound(true)
-			}
-			setLoading(false)
+	async function searchClubInfo() {
+		const docSnap = await getDoc(doc(db, 'clubs', params.slug));
 
-		});
+		let hold:any = []
+		docSnap.data()
+		setClubId(docSnap.id)
+		setClub(docSnap.data())
+		console.log(docSnap.data()['admins'])
+		setAdminIds(docSnap.data()['admins'])
 	}
 
+	async function searchAdmins() {
+		const docSnap = await getDocs(collection(db, `clubs/${params.slug}/members`));
+
+		let hold:any = []
+		let adminIdHold:string[] = []
+		docSnap.forEach((doc) => {
+			if (doc.data().role === 'admin') {
+				hold.push({uid: doc.data()['uid'], title: doc.data()['title']})
+				adminIdHold.push(doc.data()['uid'])
+			}
+		})
+
+			setAdmins(hold)
+			setAdminIds(adminIdHold)
+			setLoading(false)
+
+		}
+
 	useEffect(() => {
-		search()
+		searchClubInfo()
+		searchAdmins()
 	}, []);
 
 	return (
@@ -61,17 +72,37 @@ export default function Page({ params }: { params: { slug: string } }) {
 		<section>
 			{clubNotFound ? <h1>Club Not Found</h1> :
 				<div>
-					{loading ? <p>Loading...</p> :
-						<div>
-							<h1>{club['name']}</h1>
-							<img src={club['logo']} alt={`${club['name']} logo`}/>
-							<p>{club['description']}</p>
-							<p>Club Type: <span>{club['type'].toUpperCase()}</span></p>
+					{loading ? <Loading/>:
+						<div className={'grid grid-cols-2 mx-48'}>
+							<div>
+								<h1 className={'text-4xl'}>{club['name']}</h1>
+								<img className={'rounded-xl w-96'} src={club['logo']} alt={`${club['name']} logo`}/>
+							</div>
 
-							Admins: {adminIds} <br/>
+							{/*info*/}
+							<div className={'mt-[2.5rem]'}>
+								<p className={'text-lg'}>{club['description']}</p>
+
+								<div className={'my-10'}>
+								<h2>Executive Board</h2>
+
+								{admins.map((adminId,i ) => {
+								return <li key={i} className={'flex items-baseline gap-2'}>
+									<p className={'text-xl'}><MemberName  uid={adminId['uid']} displayOnly/></p>
+									<span>{adminId['title']}</span>
+								</li>
+							})}
+								</div>
+
+
+								<p>Club Type: <span>{club['type']}</span></p>
+							</div>
+
+							<div>
 							{adminIds.indexOf(uid) !== -1 ? <button onClick={() => {setAdminMenuOpened(!adminMenuOpened)}} className={'border-2 p-2 bg-amber-300'}>Edit Club</button> : <></>}
 							{adminMenuOpened ? <AdminMenu clubId={clubId}/> : ''}
 							<Register clubId={clubId}/>
+							</div>
 
 						</div>
 

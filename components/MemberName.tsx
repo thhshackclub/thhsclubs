@@ -5,9 +5,10 @@ import {useEffect, useState} from 'react';
 import moment from 'moment';
 
 export default function  MemberName(props: {
-	meetingId: string;
+	meetingId?: string;
 	displayOnly?: boolean;
-	uid: string, clubId: string }) {
+	uid: string,
+	clubId?: string }) {
 	const [name, setName] = useState('');
 	const [attendance, setAttendance] = useState([]);
 	const [checked, setChecked] = useState(false);
@@ -38,9 +39,7 @@ export default function  MemberName(props: {
 	}, []);
 
 
-	if (props.displayOnly) return <div>
-		<p>{name}</p>
-	</div>
+	if (props.displayOnly) return 		<>{name}</>
 	else return <div>
 		<input type={'checkbox'} name={name} id={`${props.meetingId}${props.uid}${checked?'true':'false'}`} checked={checked} onChange={() => setChecked(!checked)} />
 		<label>{name}</label>

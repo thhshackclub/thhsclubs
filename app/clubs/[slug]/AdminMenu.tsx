@@ -6,11 +6,14 @@ import {addDoc, collection, query, where} from 'firebase/firestore';
 import MemberName from '@/components/MemberName';
 import moment from 'moment';
 import {arrayRemove} from '@firebase/firestore/lite';
+import { ChevronDown, ChevronUp } from 'react-feather';
 
 export default function AdminMenu(props: { clubId: string; }) {
 	const [meetingDate, setMeetingDate] = useState(new Date());
 	const [meetingList, setMeetingList] = useState([]);
 	const [members, setMembers] = useState([])
+
+	const [showMembers, setShowMembers] = useState(false)
 
 	async function handleSubmit(e: { preventDefault: () => void; }) {
 		e.preventDefault()
@@ -21,7 +24,7 @@ export default function AdminMenu(props: { clubId: string; }) {
 	}
 
 	async function getMeetingList() {
-		const docSnap = await getDocs(collection(db, `clubs/${props.clubId}/attendance`));
+		const docSnap = await getDocs(collection(db, 'clubs', props.clubId, 'attendance'));
 		let hold:any = [];
 
 		docSnap.forEach((doc) => {
@@ -110,14 +113,15 @@ export default function AdminMenu(props: { clubId: string; }) {
 					</div>
 				</div>
 			</div>
-			<h1>Members</h1>
+			<h1 className={'inline'}>Members</h1>
 			{/*<div className={'grid gap-4 grid-cols-10'}>*/}
 			{/*	{members.map( (member, i) => {return <div key={i}>{member['uid']}</div>} )}*/}
 			{/*</div>*/}
+			<button onClick={()=>setShowMembers(!showMembers)}>{showMembers ? <ChevronUp/> : <ChevronDown/>}</button>
 			<div>
-				{members.map((member, i) => (
-					<MemberName displayOnly clubId={props.clubId} uid={member['uid']} key={i}/>
-				))}
+				{showMembers ? members.map((member, i) => (
+					<MemberName displayOnly={true} clubId={props.clubId} uid={member['uid']} key={i}/>
+				)) : ''}
 			</div>
 		</section>
 	)
