@@ -1,4 +1,4 @@
-import {arrayUnion, doc, updateDoc} from '@firebase/firestore';
+import {arrayUnion, doc, setDoc, updateDoc} from '@firebase/firestore';
 import db from '@/firebase/firestore/firestore';
 import {useEffect, useRef, useState} from 'react';
 import getLoggedIn from '@/components/getLoggedIn';
@@ -33,9 +33,12 @@ export default function Register(props: { clubId: string; user: { uid: string | 
 
 	async function handleSubmit(e: { preventDefault: () => void }) {
 		e.preventDefault()
-		const packet = doc(db, 'clubs', props.clubId)
-		await updateDoc(packet, {
-			members: arrayUnion({uid: uid, role: 'member'}) })
+		await setDoc( doc(db, `clubs/${props.clubId}/members/${uid}`), {uid: uid, role: 'member'})
+			.then(() => {
+				setRegistered(true)
+				alert('Registered!')
+			})
+			.catch((e) => {alert(e)})
 	}
 
 	return (
