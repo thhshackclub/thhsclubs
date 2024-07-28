@@ -1,52 +1,64 @@
-import {arrayUnion, doc, setDoc, updateDoc} from '@firebase/firestore';
-import db from '@/firebase/firestore/firestore';
-import {useEffect, useRef, useState} from 'react';
-import getLoggedIn from '@/components/getLoggedIn';
-import {getAuth, onAuthStateChanged} from 'firebase/auth';
-import {collection, getDocs} from 'firebase/firestore';
+import { arrayUnion, doc, setDoc, updateDoc } from "@firebase/firestore";
+import db from "@/firebase/firestore/firestore";
+import { useEffect, useRef, useState } from "react";
+import getLoggedIn from "@/components/getLoggedIn";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs } from "firebase/firestore";
+import MemberName from "@/components/MemberName";
 
-export default function Register(props: { clubId: string; user: { uid: string | number; }; }) {
+export default function Register(props: {
+  clubId: string;
+  user: { uid: string | number };
+}) {
+  const [registered, setRegistered] = useState(false);
 
-	const [registered, setRegistered] = useState(false)
+  const auth = getAuth();
+  let uid: string;
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      uid = user.uid;
+    }
+  });
 
-	const auth = getAuth();
-	let uid: string;
-	onAuthStateChanged(auth, (user) => {
-		if (user) {
+  useEffect(() => {
+    async function check() {
+      const docSnap = await getDocs(
+        collection(db, `clubs/${props.clubId}/members`)
+      );
+      docSnap.forEach((doc) => {
+        if (doc.data()["uid"] === uid) {
+          setRegistered(true);
+        }
+      });
+    }
+    check();
+  }, []);
 
-			uid = user.uid;
+  async function handleSubmit(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    await setDoc(doc(db, `clubs/${props.clubId}/members/${uid}`), {
+      uid: uid,
+      role: "member",
+      name: <MemberName uid={uid} displayOnly={true} />,
+    })
+      .then(() => {
+        setRegistered(true);
+        alert("Registered!");
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  }
 
-		}
-	});
-
-	useEffect(() => {
-		async function check() {
-			const docSnap = await getDocs(collection(db, `clubs/${props.clubId}/members`))
-			docSnap.forEach((doc) => {
-				if(doc.data()['uid'] === uid) {
-					setRegistered(true)
-				}
-			})
-		}
-		check()
-	}, []);
-
-	async function handleSubmit(e: { preventDefault: () => void }) {
-		e.preventDefault()
-		await setDoc( doc(db, `clubs/${props.clubId}/members/${uid}`), {uid: uid, role: 'member'})
-			.then(() => {
-				setRegistered(true)
-				alert('Registered!')
-			})
-			.catch((e) => {alert(e)})
-	}
-
-	return (
-		<>
-		{
-			registered ? <span>You are a member of this club.</span> :
-				<button onClick={handleSubmit} className={'border-2 p-2 bg-amber-300'}>Register</button>
-		}
-		</>
-	)
+  return (
+    <>
+      {registered ? (
+        <span>You are a member of this club.</span>
+      ) : (
+        <button onClick={handleSubmit} className={"border-2 p-2 bg-amber-300"}>
+          Register
+        </button>
+      )}
+    </>
+  );
 }
