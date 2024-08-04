@@ -51,6 +51,9 @@ export default function Page({
         present: arrayUnion(uid),
       }
     );
+    await updateDoc(doc(db, "clubs", params.slug, "members", uid), {
+      attendedMeetings: arrayUnion(params.meeting),
+    });
     alert("Attendance recorded!");
   }
 

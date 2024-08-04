@@ -13,7 +13,7 @@ import { addDoc, collection, query, where } from "firebase/firestore";
 import MemberName from "@/components/MemberName";
 import moment from "moment";
 import { arrayRemove } from "@firebase/firestore/lite";
-import { ChevronDown, ChevronUp } from "react-feather";
+import { ChevronDown, ChevronUp, HelpCircle } from "react-feather";
 import MeetingGrid from "@/app/clubs/[slug]/MeetingGrid";
 import { PlusSquare } from "react-feather";
 
@@ -69,7 +69,12 @@ export default function AdminMenu(props: {
 
     let hold: any = [];
     docSnap.forEach((doc) => {
-      hold.push({ uid: doc.data()["uid"], role: doc.data()["role"] });
+      hold.push({
+        uid: doc.data()["uid"],
+        role: doc.data()["role"],
+        attendedMeetings: doc.data()["attendedMeetings"],
+      });
+      console.log(doc.data());
     });
     setMembers(hold);
   }
@@ -93,6 +98,10 @@ export default function AdminMenu(props: {
         });
       }
     }
+  }
+
+  function totalMeetingsAttended(i: number) {
+    return members[i]["attendedMeetings"].length;
   }
 
   return (
@@ -141,21 +150,36 @@ export default function AdminMenu(props: {
       {/*<div className={'grid gap-4 grid-cols-10'}>*/}
       {/*	{members.map( (member, i) => {return <div key={i}>{member['uid']}</div>} )}*/}
       {/*</div>*/}
-      <button onClick={() => setShowMembers(!showMembers)}>
+      <HelpCircle className={"peer inline "} />
+      <p
+        className={
+          "peer-hover:opacity-100 opacity-0 absolute z-10 bg-green-200"
+        }
+      >
+        The number in the parenthesis indicates the number of meetings that
+        person has attended this year.
+      </p>
+      <button
+        className={"border-0 p-0"}
+        onClick={() => setShowMembers(!showMembers)}
+      >
         {showMembers ? <ChevronUp /> : <ChevronDown />}
       </button>
-      <div>
+      <ul>
         {showMembers
           ? members.map((member, i) => (
-              <MemberName
-                displayOnly={true}
-                clubId={props.clubId}
-                uid={member["uid"]}
-                key={i}
-              />
+              <li>
+                <MemberName
+                  displayOnly={true}
+                  clubId={props.clubId}
+                  uid={member["uid"]}
+                  key={i}
+                />{" "}
+                ({totalMeetingsAttended(i)})
+              </li>
             ))
           : ""}
-      </div>
+      </ul>
     </section>
   );
 }

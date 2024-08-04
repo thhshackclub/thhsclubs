@@ -40,6 +40,7 @@ export default function Register(props: {
       uid: uid,
       role: "member",
       name: <MemberName uid={uid} displayOnly={true} />,
+      attendedMeetings: [],
     })
       .then(() => {
         setRegistered(true);
