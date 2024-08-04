@@ -15,6 +15,7 @@ import moment from "moment";
 import { arrayRemove } from "@firebase/firestore/lite";
 import { ChevronDown, ChevronUp } from "react-feather";
 import MeetingGrid from "@/app/clubs/[slug]/MeetingGrid";
+import { PlusSquare } from "react-feather";
 
 export default function AdminMenu(props: { clubId: string }) {
   const [meetingDate, setMeetingDate] = useState(new Date());
@@ -116,11 +117,17 @@ export default function AdminMenu(props: { clubId: string }) {
             setMeetingDate(new Date(e.target.value));
           }}
         />
-        <button>Submit</button>
+        <button className={"border-0 p-0"}>
+          <PlusSquare />
+        </button>
       </form>
       <div>
         <h3>Meeting List</h3>
-        <MeetingGrid meetingList={meetingList} members={members} />
+        <MeetingGrid
+          meetingList={meetingList}
+          members={members}
+          clubId={props.clubId}
+        />
         {/*<div className={"grid grid-cols-2"}>*/}
         {/*  <div>*/}
         {/*    {meetingList[0] ? (*/}

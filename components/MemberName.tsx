@@ -13,6 +13,7 @@ export default function MemberName(props: {
   const [name, setName] = useState("");
   const [attendance, setAttendance] = useState([]);
   const [checked, setChecked] = useState(false);
+
   useEffect(() => {
     async function read() {
       const q = query(collection(db, "users"), where("uid", "==", props.uid));
