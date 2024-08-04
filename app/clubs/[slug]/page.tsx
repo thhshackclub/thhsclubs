@@ -21,7 +21,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [clubId, setClubId] = useState();
   const [admins, setAdmins] = useState([]);
   const [adminIds, setAdminIds] = useState([]);
-
+  const [isFaculty, setIsFaculty] = useState(false);
   const [uid, setUid] = useState();
   const [adminMenuOpened, setAdminMenuOpened] = useState(false);
 
@@ -32,6 +32,17 @@ export default function Page({ params }: { params: { slug: string } }) {
     if (user) {
       // @ts-ignore
       setUid(user.uid);
+      console.log(user.uid);
+      // @ts-ignore
+      async function checkIfFaculty() {
+        // @ts-ignore
+        const docSnap = await getDoc(doc(db, "users", user.uid));
+        // @ts-ignore
+        if (docSnap.data()["type"] == "faculty") {
+          setIsFaculty(true);
+        }
+      }
+      checkIfFaculty();
     }
   });
 
@@ -75,6 +86,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   return (
     <section>
+      {isFaculty}
       {clubNotFound ? (
         <h1>Club Not Found</h1>
       ) : (
@@ -126,8 +138,19 @@ export default function Page({ params }: { params: { slug: string } }) {
                 ) : (
                   <></>
                 )}
-                {adminMenuOpened ? <AdminMenu clubId={clubId} /> : ""}
-                <Register clubId={clubId} />
+                {!isFaculty ? (
+                  <Register clubId={clubId} />
+                ) : (
+                  <button
+                    onClick={() => {
+                      setAdminMenuOpened(!adminMenuOpened);
+                    }}
+                    className={"border-2 p-2 bg-amber-300"}
+                  >
+                    View Club Info
+                  </button>
+                )}
+                {adminMenuOpened ? <AdminMenu faculty clubId={clubId} /> : ""}
               </div>
             </div>
           )}

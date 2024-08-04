@@ -43,6 +43,11 @@ export default function Navbar() {
     }
   });
 
+  function handleLogOut(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    signout();
+  }
+
   const pathname = usePathname();
   if (pathname !== "/") {
     return (
@@ -61,7 +66,7 @@ export default function Navbar() {
           {profileDropdown ? (
             <div className={"absolute top-7 border-2 flex flex-col"}>
               <a>{loading ? "" : <MemberName displayOnly uid={user} />}</a>
-              <button onClick={() => signout}>Log Out</button>
+              <button onClick={handleLogOut}>Log Out</button>
             </div>
           ) : (
             ""

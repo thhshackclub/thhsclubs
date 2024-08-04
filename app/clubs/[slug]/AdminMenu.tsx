@@ -17,7 +17,10 @@ import { ChevronDown, ChevronUp } from "react-feather";
 import MeetingGrid from "@/app/clubs/[slug]/MeetingGrid";
 import { PlusSquare } from "react-feather";
 
-export default function AdminMenu(props: { clubId: string }) {
+export default function AdminMenu(props: {
+  clubId: string;
+  faculty?: boolean;
+}) {
   const [meetingDate, setMeetingDate] = useState(new Date());
   const [meetingList, setMeetingList] = useState([]);
   const [members, setMembers] = useState([]);
@@ -96,31 +99,35 @@ export default function AdminMenu(props: { clubId: string }) {
     <section className={"w-screen border-2 mx-2"}>
       <h1>Admin Menu</h1>
       <h2>Meetings</h2>
-      <form onSubmit={handleSubmit}>
-        <h3>Add meeting date</h3>
-        <input
-          className={`form__input  ${
-            !meetingDate && "form__input--incomplete"
-          }`}
-          id="fromDate"
-          name="fromDate"
-          type="date"
-          autoComplete="off"
-          value={
-            meetingDate.getFullYear().toString() +
-            "-" +
-            (meetingDate.getMonth() + 1).toString().padStart(2, 0) +
-            "-" +
-            meetingDate.getDate().toString().padStart(2, 0)
-          }
-          onChange={(e) => {
-            setMeetingDate(new Date(e.target.value));
-          }}
-        />
-        <button className={"border-0 p-0"}>
-          <PlusSquare />
-        </button>
-      </form>
+      {!props.faculty ? (
+        <form onSubmit={handleSubmit}>
+          <h3>Add meeting date</h3>
+          <input
+            className={`form__input  ${
+              !meetingDate && "form__input--incomplete"
+            }`}
+            id="fromDate"
+            name="fromDate"
+            type="date"
+            autoComplete="off"
+            value={
+              meetingDate.getFullYear().toString() +
+              "-" +
+              (meetingDate.getMonth() + 1).toString().padStart(2, 0) +
+              "-" +
+              meetingDate.getDate().toString().padStart(2, 0)
+            }
+            onChange={(e) => {
+              setMeetingDate(new Date(e.target.value));
+            }}
+          />
+          <button className={"border-0 p-0"}>
+            <PlusSquare />
+          </button>
+        </form>
+      ) : (
+        ""
+      )}
       <div>
         <h3>Meeting List</h3>
         <MeetingGrid
@@ -128,42 +135,6 @@ export default function AdminMenu(props: { clubId: string }) {
           members={members}
           clubId={props.clubId}
         />
-        {/*<div className={"grid grid-cols-2"}>*/}
-        {/*  <div>*/}
-        {/*    {meetingList[0] ? (*/}
-        {/*      meetingList.map((meeting, i) => (*/}
-        {/*        <div>*/}
-        {/*          <p key={i}>{meeting["date"]}</p>*/}
-        {/*          <div>*/}
-        {/*            {members.map((member, i) => (*/}
-        {/*              <MemberName*/}
-        {/*                meetingId={moment(*/}
-        {/*                  meeting["date"].split("at")[0]*/}
-        {/*                ).format("MMDDYY")}*/}
-        {/*                clubId={props.clubId}*/}
-        {/*                uid={member["uid"]}*/}
-        {/*                key={i}*/}
-        {/*              />*/}
-        {/*            ))}*/}
-        {/*          </div>*/}
-        {/*          /!*<button>Mark All Present</button>*!/*/}
-        {/*          <button*/}
-        {/*            onClick={(e) => {*/}
-        {/*              e.preventDefault();*/}
-        {/*              handleAttendanceSubmission(*/}
-        {/*                moment(meeting["date"].split("at")[0]).format("MMDDYY")*/}
-        {/*              );*/}
-        {/*            }}*/}
-        {/*          >*/}
-        {/*            Submit*/}
-        {/*          </button>*/}
-        {/*        </div>*/}
-        {/*      ))*/}
-        {/*    ) : (*/}
-        {/*      <p>No meetings scheduled.</p>*/}
-        {/*    )}*/}
-        {/*  </div>*/}
-        {/*</div>*/}
       </div>
 
       <h1 className={"inline"}>Members</h1>

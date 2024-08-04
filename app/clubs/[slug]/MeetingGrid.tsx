@@ -13,6 +13,7 @@ export default function MeetingGrid(props: {
   clubId: string;
 }) {
   const [loading, setLoading] = useState(true);
+
   const [data, setData] = useState<any[]>([]);
 
   // TODO: make this work
@@ -39,7 +40,14 @@ export default function MeetingGrid(props: {
 
   let columns = ["Name"];
   props.meetingList.map((meeting: { [x: string]: string }) => {
-    columns.push(moment(meeting["date"]).format("MM/DD/YY"));
+    // @ts-ignore
+    columns.push(
+      html(
+        `<a href='/clubs/${props.clubId}/${moment(meeting["date"]).format(
+          "MMDDYY"
+        )}'>${moment(meeting["date"]).format("MM/DD/YY")}</a>`
+      )
+    );
   });
 
   async function read(x: string) {

@@ -87,21 +87,21 @@ function SignUp() {
               <option value={10}>10</option>
               <option value={11}>11</option>
               <option value={12}>12</option>
-              <option value={0}>Faculty</option>
+              {/*<option value={0}>Faculty</option>*/}
             </select>
           </label>
-          <label htmlFor={"account type"}>
-            <p>Account Type</p>
-            <select
-              value={accountType}
-              onChange={(e) => setAccountType(e.target.value)}
-            >
-              <option value={"student"}>Student</option>
-              {/*<option value={"executive"}>Club Executive</option>*/}
-              <option value={"su"}>Student Union</option>
-              <option value={"faculty"}>Faculty</option>
-            </select>
-          </label>
+          {/*<label htmlFor={"account type"}>*/}
+          {/*  <p>Account Type</p>*/}
+          {/*  <select*/}
+          {/*    value={accountType}*/}
+          {/*    onChange={(e) => setAccountType(e.target.value)}*/}
+          {/*  >*/}
+          {/*    <option value={"student"}>Student</option>*/}
+          {/*    /!*<option value={"executive"}>Club Executive</option>*!/*/}
+          {/*    /!*<option value={"su"}>Student Union</option>*!/*/}
+          {/*    /!*<option value={"faculty"}>Faculty</option>*!/*/}
+          {/*  </select>*/}
+          {/*</label>*/}
           <button type="submit">Sign up</button>
         </form>
       </div>
