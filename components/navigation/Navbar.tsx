@@ -51,10 +51,15 @@ export default function Navbar() {
   const pathname = usePathname();
   if (pathname !== "/") {
     return (
-      <section className={"w-screen bg-green-200 flex justify-between px-20"}>
-        <p className={"font-black text-xl"}>THHS Clubs</p>
-        <a href={"/clubs"}>Discover</a>
-        <a href={"/myclubs"}>My Clubs</a>
+      <section className={"w-screen bg-bg flex justify-between px-20"}>
+        {/*<p className={"font-black text-xl"}>THHS Clubs</p>*/}
+        <img src={"/logo.png"} alt={"THHS Clubs"} className={"w-20"} />
+        <a href={"/clubs"} className={"my-auto text-lg font-display"}>
+          Discover
+        </a>
+        <a href={"/myclubs"} className={"my-auto text-lg font-display"}>
+          My Clubs
+        </a>
         {/*@ts-ignore*/}
         <div className={"flex gap-2"} ref={dropDown}>
           <button
@@ -64,7 +69,7 @@ export default function Navbar() {
             <User />
           </button>
           {profileDropdown ? (
-            <div className={"absolute top-7 border-2 flex flex-col"}>
+            <div className={"absolute top-20 border-2 flex flex-col bg-bg"}>
               <a>{loading ? "" : <MemberName displayOnly uid={user} />}</a>
               <button onClick={handleLogOut}>Log Out</button>
             </div>

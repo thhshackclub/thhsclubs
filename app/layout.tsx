@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Syne } from "next/font/google";
 import "./globals.css";
 import { AuthContextProvider } from "@/context/AuthContext";
 import Navbar from "@/components/navigation/Navbar";
 import getLoggedIn from "@/components/getLoggedIn";
 import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const syne = Syne({
+  weight: "700",
+  subsets: ["latin"],
+  variable: "--font-syne",
+});
 
 export const metadata: Metadata = {
   title: "THHS Clubs",
@@ -16,7 +25,7 @@ export const metadata: Metadata = {
 // @ts-ignore
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${syne.variable}`}>
       {/*
         <head /> will contain the components returned by the nearest parent
         head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head

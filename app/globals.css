@@ -2,12 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    @apply text-dark font-sans
+}
+
 h1 {
-    @apply text-2xl font-black
+    @apply text-4xl font-black font-display
 }
 
 h2 {
-    @apply text-xl font-black
+    @apply text-xl font-black font-display
 }
 
 h3 {
