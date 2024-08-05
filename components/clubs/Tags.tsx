@@ -6,7 +6,7 @@ import { doc, updateDoc } from "@firebase/firestore";
 import db from "@/firebase/firestore/firestore";
 export default function Tags(props: {
   tagList: any[];
-  adminMenuOpened: boolean;
+  adminMenuOpened?: boolean;
 }) {
   const [tags, setTags] = useState([]);
 

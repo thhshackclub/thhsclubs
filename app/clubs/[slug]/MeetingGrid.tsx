@@ -16,28 +16,6 @@ export default function MeetingGrid(props: {
 
   const [data, setData] = useState<any[]>([]);
 
-  // TODO: make this work
-  // async function handleSubmit(meeting: string) {
-  //   for (let i in props.members) {
-  //     const ele = document.getElementById(
-  //       meeting + props.members[i]["uid"]
-  //     ) as HTMLInputElement;
-  //     if (ele.checked) {
-  //       await updateDoc(doc(db, "clubs", props.clubId, "attendance", meeting), {
-  //         present: arrayUnion(props.members[i]["uid"]),
-  //       });
-  //     }
-  //     if (
-  //       document.getElementById(meeting + props.members[i]["uid"] + "false")
-  //     ) {
-  //       console.log(props.members[i]["uid"]);
-  //       await updateDoc(doc(db, "clubs", props.clubId, "attendance", meeting), {
-  //         present: arrayRemove(props.members[i]["uid"]),
-  //       });
-  //     }
-  //   }
-  // }
-
   let columns = ["Name"];
   props.meetingList.map((meeting: { [x: string]: string }) => {
     // @ts-ignore
@@ -90,7 +68,7 @@ export default function MeetingGrid(props: {
   }, [props.members, props.meetingList]);
 
   if (loading) return <div>Loading...</div>;
-
+  if (props.meetingList.length === 0) return <div>No meetings found.</div>;
   return (
     <>
       <Grid columns={columns} data={data} />

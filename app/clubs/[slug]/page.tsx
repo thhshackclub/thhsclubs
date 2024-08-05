@@ -32,18 +32,18 @@ export default function Page({ params }: { params: { slug: string } }) {
     if (user) {
       // @ts-ignore
       setUid(user.uid);
-      console.log(user.uid);
       // @ts-ignore
-      async function checkIfFaculty() {
-        // @ts-ignore
-        const docSnap = await getDoc(doc(db, "users", user.uid));
-        // @ts-ignore
-        if (docSnap.data()["type"] == "faculty") {
-          setIsFaculty(true);
-        }
-      }
-      checkIfFaculty();
     }
+    async function checkIfFaculty() {
+      // @ts-ignore
+      const docSnap = await getDoc(doc(db, "users", user.uid));
+      // @ts-ignore
+      if (docSnap.data()["type"] == "faculty") {
+        console.log("faculty");
+        setIsFaculty(true);
+      }
+    }
+    checkIfFaculty();
   });
 
   async function searchClubInfo() {

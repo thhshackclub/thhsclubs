@@ -5,6 +5,7 @@ import db from "@/firebase/firestore/firestore";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import QRCode from "react-qr-code";
+import MemberName from "@/components/MemberName";
 
 export default function Page({
   params,
@@ -15,6 +16,7 @@ export default function Page({
   const [uid, setUid] = useState();
   const [error, setError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   var parts = params.meeting.match(/.{1,2}/g);
   var new_value = parts.join("/");
@@ -63,6 +65,7 @@ export default function Page({
       // @ts-ignore
       setUid(user.uid);
       setLoggedIn(true);
+      setLoading(false);
     } else setLoggedIn(false);
   });
 
@@ -80,7 +83,7 @@ export default function Page({
           {new_value} Attendance for {clubName}
         </h1>
         <p>
-          Signed in as <span>{uid}</span>
+          Signed in as {loading ? "" : <MemberName uid={uid} displayOnly />}
         </p>
 
         <button onClick={handleSubmit}>I was here!</button>

@@ -1,10 +1,25 @@
 import MemberName from "@/components/MemberName";
-import { PlusSquare } from "react-feather";
+import { PlusSquare, Trash } from "react-feather";
 import { useState } from "react";
-import { addDoc, collection, doc, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  deleteField,
+  doc,
+  query,
+  where,
+} from "firebase/firestore";
 import db from "@/firebase/firestore/firestore";
-import { arrayUnion, getDocs, setDoc, updateDoc } from "@firebase/firestore";
+import {
+  arrayUnion,
+  getDocs,
+  setDoc,
+  updateDoc,
+  arrayRemove,
+} from "@firebase/firestore";
 import { update } from "@firebase/database";
+import AdminTitleInput from "@/app/clubs/[slug]/AdminTitleInput";
 
 export default function Admins(props: {
   clubId: string;
@@ -33,18 +48,63 @@ export default function Admins(props: {
     });
   }
 
+  async function removeAdmin(uid: string) {
+    await updateDoc(doc(db, `clubs/${props.clubId}/members/${uid}`), {
+      title: deleteField(),
+      role: "member",
+    })
+      .then(async () => {
+        await updateDoc(doc(db, `clubs/${props.clubId}`), {
+          admins: arrayRemove(uid.toString()),
+        });
+      })
+      .then(() => {
+        alert("Admin removed! Please refresh to see your changes.");
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  }
+
   return (
     <div className={"my-10"}>
       <h2>Executive Board</h2>
 
       {props.admins.map((adminId, i) => {
         return (
-          <li key={i} className={"flex items-baseline gap-2"}>
-            <p className={"text-xl"}>
-              <MemberName uid={adminId["uid"]} displayOnly />
-            </p>
-            <span>{adminId["title"]}</span>
-          </li>
+          <div key={i} className={"my-4"}>
+            {props.adminMenuOpened ? (
+              //   admin menu opened
+              <li key={i} className={"flex items-baseline gap-2"}>
+                <p className={"text-xl"}>
+                  <MemberName uid={adminId["uid"]} displayOnly />
+                </p>
+                <AdminTitleInput
+                  initialTitle={adminId["title"]}
+                  clubId={props.clubId}
+                  uid={adminId["uid"]}
+                />
+                {/*<input value={adminId["title"]} />*/}
+                <button
+                  className={"border-0 p-0"}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    removeAdmin(adminId["uid"]);
+                  }}
+                >
+                  <Trash />
+                </button>
+              </li>
+            ) : (
+              //   admin menu not opened
+              <li key={i} className={"flex items-baseline gap-2"}>
+                <p className={"text-xl"}>
+                  <MemberName uid={adminId["uid"]} displayOnly />
+                </p>
+                <span>{adminId["title"]}</span>
+              </li>
+            )}
+          </div>
         );
       })}
       {props.adminMenuOpened ? (

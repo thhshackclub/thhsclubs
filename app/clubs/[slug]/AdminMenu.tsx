@@ -74,7 +74,7 @@ export default function AdminMenu(props: {
         role: doc.data()["role"],
         attendedMeetings: doc.data()["attendedMeetings"],
       });
-      console.log(doc.data());
+      // console.log(doc.data());
     });
     setMembers(hold);
   }
@@ -108,35 +108,31 @@ export default function AdminMenu(props: {
     <section className={"w-screen border-2 mx-2"}>
       <h1>Admin Menu</h1>
       <h2>Meetings</h2>
-      {!props.faculty ? (
-        <form onSubmit={handleSubmit}>
-          <h3>Add meeting date</h3>
-          <input
-            className={`form__input  ${
-              !meetingDate && "form__input--incomplete"
-            }`}
-            id="fromDate"
-            name="fromDate"
-            type="date"
-            autoComplete="off"
-            value={
-              meetingDate.getFullYear().toString() +
-              "-" +
-              (meetingDate.getMonth() + 1).toString().padStart(2, 0) +
-              "-" +
-              meetingDate.getDate().toString().padStart(2, 0)
-            }
-            onChange={(e) => {
-              setMeetingDate(new Date(e.target.value));
-            }}
-          />
-          <button className={"border-0 p-0"}>
-            <PlusSquare />
-          </button>
-        </form>
-      ) : (
-        ""
-      )}
+      <form onSubmit={handleSubmit}>
+        <h3>Add meeting date</h3>
+        <input
+          className={`form__input  ${
+            !meetingDate && "form__input--incomplete"
+          }`}
+          id="fromDate"
+          name="fromDate"
+          type="date"
+          autoComplete="off"
+          value={
+            meetingDate.getFullYear().toString() +
+            "-" +
+            (meetingDate.getMonth() + 1).toString().padStart(2, 0) +
+            "-" +
+            meetingDate.getDate().toString().padStart(2, 0)
+          }
+          onChange={(e) => {
+            setMeetingDate(new Date(e.target.value));
+          }}
+        />
+        <button className={"border-0 p-0"}>
+          <PlusSquare />
+        </button>
+      </form>
       <div>
         <h3>Meeting List</h3>
         <MeetingGrid
