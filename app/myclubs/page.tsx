@@ -7,7 +7,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ClubCard from "@/components/clubs/ClubCard";
 
 export default function Page() {
-  const [clubs, setClubs] = useState<string[]>([]);
+  const [clubs, setClubs] = useState<[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const auth = getAuth();
@@ -23,15 +23,13 @@ export default function Page() {
 
     docSnap.forEach((d) => {
       getDoc(doc(db, `clubs/${d.id}/members/${uid}`)).then((doc) => {
-        console.log(d.id);
-        console.log(doc);
+        // console.log(d.id);
         if (doc.exists()) {
           setClubs((clubs) => [...clubs, d.id]);
         }
       });
-
-      setLoading(false);
     });
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -41,7 +39,12 @@ export default function Page() {
   return (
     <div>
       <h1>My Clubs</h1>
-      {loading ? "" : <ClubCard clubs={clubs} />}
+      <div className={"grid grid-cols-3 gap-10"}>
+        {clubs.map((club, i) => {
+          return <ClubCard key={i} club={club} />;
+        })}
+      </div>
+      {/*{!loading ? <ClubCard club={clubs} /> : ""}*/}
     </div>
   );
 }
