@@ -15,7 +15,7 @@ a {
 }
 
 h1 {
-    @apply text-4xl font-black font-display
+    @apply text-4xl font-black font-display text-center md:text-left
 }
 
 h2 {
@@ -26,6 +26,6 @@ h3 {
     @apply text-lg font-bold
 }
 
-/*button {*/
-/*    @apply border-2 p-2*/
-/*}*/
+button {
+    @apply hover:text-primary
+}

@@ -22,7 +22,7 @@ export default function AdminTitleInput(props: {
   }
 
   return (
-    <div className={"inline"}>
+    <div className={"inline flex"}>
       <input
         className={"border-2 rounded-l"}
         value={title}

@@ -6,10 +6,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import MemberName from "@/components/MemberName";
 
-export default function Register(props: {
-  clubId: string;
-  user: { uid: string | number };
-}) {
+export default function Register(props: { clubId: string }) {
   const [registered, setRegistered] = useState(false);
 
   const auth = getAuth();

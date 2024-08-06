@@ -49,7 +49,20 @@ export default function MobileNavbar(props: {
             </button>
           </div>
         ) : (
-          "Sign In"
+          <div className={"flex justify-center gap-4 mt-10"}>
+            <a
+              href={"/signin"}
+              className={"font-display text-primary border-2 p-2 rounded-md"}
+            >
+              Sign In
+            </a>
+            <a
+              href={"/signup"}
+              className={"font-display text-primary border-2 p-2 rounded-md"}
+            >
+              Sign Up
+            </a>
+          </div>
         )}
       </section>
     </section>

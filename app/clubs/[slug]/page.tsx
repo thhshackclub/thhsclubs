@@ -24,23 +24,24 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [isFaculty, setIsFaculty] = useState(false);
   const [uid, setUid] = useState();
   const [adminMenuOpened, setAdminMenuOpened] = useState(false);
-
-  const [editedDescription, setEditedDescription] = useState();
-
+  const [editedDescription, setEditedDescription] = useState<string>();
+  const [loggedIn, setLoggedIn] = useState(false);
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // @ts-ignore
       setUid(user.uid);
-      // @ts-ignore
+      setLoggedIn(true);
     }
     async function checkIfFaculty() {
-      // @ts-ignore
-      const docSnap = await getDoc(doc(db, "users", user.uid));
-      // @ts-ignore
-      if (docSnap.data()["type"] == "faculty") {
-        console.log("faculty");
-        setIsFaculty(true);
+      if (loggedIn) {
+        // @ts-ignore
+        const docSnap = await getDoc(doc(db, "users", user.uid));
+        // @ts-ignore
+        if (docSnap.data()["type"] == "faculty") {
+          console.log("faculty");
+          setIsFaculty(true);
+        }
       }
     }
     checkIfFaculty();
@@ -51,10 +52,12 @@ export default function Page({ params }: { params: { slug: string } }) {
 
     let hold: any = [];
     if (docSnap.exists()) {
+      // @ts-ignore
       setClubId(docSnap.id);
       setClub(docSnap.data());
       setEditedDescription(club["description"]);
       setAdminIds(docSnap.data()["admins"]);
+      setLoading(false);
     } else setClubNotFound(true);
   }
 
@@ -74,16 +77,16 @@ export default function Page({ params }: { params: { slug: string } }) {
 
     setAdmins(hold);
     setAdminIds(adminIdHold);
-    setLoading(false);
   }
 
   useEffect(() => {
     searchAdmins();
-  }, []);
-
-  useEffect(() => {
     searchClubInfo();
-  }, [adminMenuOpened]);
+  }, [adminMenuOpened, loggedIn]);
+
+  // useEffect(() => {
+  //   searchClubInfo();
+  // }, [adminMenuOpened]);
 
   if (clubNotFound) {
     return (
@@ -102,9 +105,15 @@ export default function Page({ params }: { params: { slug: string } }) {
       {loading ? (
         <Loading />
       ) : (
-        <div className={"grid grid-cols-2 mx-24 xl:mx-48 gap-4 lg:gap-0"}>
+        <div
+          className={
+            "grid md:grid-cols-2 grid-cols-1 mx-8 md:mx-24 xl:mx-48 gap-4 lg:gap-0"
+          }
+        >
           <div>
-            <h1 className={"text-4xl"}>{club["name"]}</h1>
+            <h1 className={"text-4xl text-center md:text-left"}>
+              {club["name"]}
+            </h1>
             <img
               className={"rounded-xl w-96"}
               src={club["logo"]}
@@ -147,7 +156,13 @@ export default function Page({ params }: { params: { slug: string } }) {
               <></>
             )}
             {!isFaculty ? (
-              <Register clubId={clubId} />
+              <>
+                {loggedIn ? (
+                  <Register clubId={clubId} />
+                ) : (
+                  <p>Log in to register for clubs.</p>
+                )}
+              </>
             ) : (
               <button
                 onClick={() => {

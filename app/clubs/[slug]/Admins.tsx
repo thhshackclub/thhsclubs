@@ -75,24 +75,41 @@ export default function Admins(props: {
           <div key={i} className={"my-4"}>
             {props.adminMenuOpened ? (
               //   admin menu opened
-              <li key={i} className={"flex items-baseline gap-2"}>
-                <p className={"text-xl"}>
+              <li key={i} className={"grid grid-cols-1 md:flex gap-2"}>
+                <p className={"text-xl flex"}>
                   <MemberName uid={adminId["uid"]} displayOnly />
+
+                  {/*for small displays*/}
+                  <button
+                    className={"border-0 p-0 md:hidden "}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (
+                        confirm("Are you sure you want to remove this admin?")
+                      ) {
+                        removeAdmin(adminId["uid"]);
+                      }
+                    }}
+                  >
+                    <Trash />
+                  </button>
                 </p>
                 <AdminTitleInput
                   initialTitle={adminId["title"]}
                   clubId={props.clubId}
                   uid={adminId["uid"]}
                 />
-                {/*<input value={adminId["title"]} />*/}
+                {/*for md+ displays*/}
                 <button
-                  className={"border-0 p-0"}
+                  className={
+                    "hover:text-primary flex border-0 p-0 hidden md:inline"
+                  }
                   onClick={(e) => {
                     e.preventDefault();
                     removeAdmin(adminId["uid"]);
                   }}
                 >
-                  <Trash />
+                  <Trash className={"hover:text-primary"} />
                 </button>
               </li>
             ) : (
