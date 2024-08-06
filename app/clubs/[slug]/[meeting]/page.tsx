@@ -27,6 +27,17 @@ export default function Page({
     );
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
+      if (docSnap.data()["present"].includes(uid)) {
+        setError("You have already recorded your attendance for this meeting.");
+      }
+      if (moment(new_value).diff(moment(), "days") > 0) {
+        setError(
+          "This meeting has not happened yet. Please wait until the meeting date to record your attendance."
+        );
+      }
+      if (moment(new_value).diff(moment(), "days") < 1) {
+        setError("The attendance window has closed for this meeting.");
+      }
     } else {
       // docSnap.data() will be undefined in this case
       setError(
@@ -78,11 +89,11 @@ export default function Page({
     return <p>{error}</p>;
   } else
     return (
-      <div className={"grid grid-cols-1 justify-center gap-6"}>
+      <div className={"flex justify-center flex-col gap-6 pt-6 pb-32"}>
         <h1 className={"text-center"}>
           {new_value} Attendance for {clubName}
         </h1>
-        <div>
+        <div className={"flex justify-center flex-col"}>
           <p className={"text-center"}>
             Signed in as {loading ? "" : <MemberName uid={uid} displayOnly />}
           </p>
@@ -95,11 +106,14 @@ export default function Page({
           </button>
         </div>
 
-        <div className={"flex justify-center"}>
-          <QRCode
-            value={`https://thhsclubs.com/${params.slug}/${params.meeting}`}
-          />
-        </div>
+        <section>
+          <h2 className={"text-center"}>Share the Attendance!</h2>
+          <div className={"flex justify-center"}>
+            <QRCode
+              value={`https://thhsclubs.vercel.app/${params.slug}/${params.meeting}`}
+            />
+          </div>
+        </section>
       </div>
     );
 }
