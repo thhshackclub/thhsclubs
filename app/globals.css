@@ -29,3 +29,11 @@ h3 {
 button {
     @apply hover:text-primary
 }
+
+a {
+    @apply hover:text-primary
+}
+
+input {
+    @apply rounded-md border-2 py-1 pl-1
+}

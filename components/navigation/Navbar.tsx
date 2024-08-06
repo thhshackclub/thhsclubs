@@ -14,6 +14,7 @@ export default function Navbar() {
   const [loading, setLoading] = useState(true);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const dropDown = useRef();
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const useOutsideAlerter = (dropDown: any) => {
     useEffect(() => {
@@ -37,6 +38,7 @@ export default function Navbar() {
       // https://firebase.google.com/docs/reference/js/auth.user
       // @ts-ignore
       setUser(user.uid);
+      setIsSignedIn(true);
       setLoading(false);
     } else {
       // User is signed out
@@ -66,17 +68,48 @@ export default function Navbar() {
           </a>
           {/*@ts-ignore*/}
           <div className={"flex gap-2"} ref={dropDown}>
-            <button
-              className={"border-0 p-0"}
-              onClick={() => setProfileDropdown(!profileDropdown)}
-            >
-              <User />
+            <button onClick={() => setProfileDropdown(!profileDropdown)}>
+              <User className={"stroke-primary"} />
             </button>
             {profileDropdown ? (
-              <div className={"absolute top-20 border-2 flex flex-col bg-bg"}>
-                <a>{loading ? "" : <MemberName displayOnly uid={user} />}</a>
-                <button onClick={handleLogOut}>Log Out</button>
-              </div>
+              <>
+                {isSignedIn ? (
+                  <div
+                    className={
+                      "absolute top-20 px-3 py-6 mt-1 rounded-b-lg right-2 w-48 flex flex-col text-right bg-bg"
+                    }
+                  >
+                    <p>
+                      Logged in as{" "}
+                      <span className={"text-primary"}>
+                        {loading ? "" : <MemberName displayOnly uid={user} />}
+                      </span>
+                    </p>
+                    <button className={"w-fit"} onClick={handleLogOut}>
+                      <span
+                        className={
+                          "border-2 border-light bg-accent px-2 py-1 rounded-md text-right hover:text-primary"
+                        }
+                      >
+                        Log Out
+                      </span>
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    className={
+                      "absolute top-20 px-3 py-6 mt-1 rounded-b-lg right-2 w-48 flex flex-col text-center bg-bg"
+                    }
+                  >
+                    <a className={"hover:text-accent"} href={"/signin"}>
+                      Sign In
+                    </a>
+                    <a className={"hover:text-accent"} href={"/signup"}>
+                      Sign Up
+                    </a>
+                  </div>
+                )}
+              </>
             ) : (
               ""
             )}

@@ -15,6 +15,7 @@ export default function Page() {
   const [logo, setLogo] = useState(
     "https://markleisherproductions.com/wp-content/uploads/2021/01/logo-placeholder-png-2.png"
   );
+  const [isSignedIn, setIsSignedIn] = useState(false);
   // const [type, setType] = useState("Club");
   const [url, setUrl] = useState("");
   const [error, setError] = useState(null);
@@ -24,6 +25,7 @@ export default function Page() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       uid = user.uid;
+      setIsSignedIn(true);
     }
   });
 
@@ -53,78 +55,81 @@ export default function Page() {
       attendedMeetings: [],
     });
   }
-  return (
-    <section>
-      <h1>Register a Club</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">
-          <p>Club Name</p>
-          <input
-            required
-            type="text"
-            name="clubName"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-            placeholder="Club Name"
-          />
-        </label>
-        <label htmlFor="description">
-          <p>Club Description</p>
-          <input
-            required
-            type="text"
-            name="clubDescription"
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-            placeholder="Club Description"
-          />
-        </label>
-        <label htmlFor="logo">
-          <p>Logo URL</p>
-          <input
-            required
-            type="url"
-            value={logo}
-            onChange={(e) => {
-              setLogo(e.target.value);
-            }}
-            placeholder="Logo URL"
-          />
-        </label>
 
-        <label htmlFor={"tags"}>
-          <p>Tags</p>
-          <Select
-            isMulti
-            isSearchable
-            isClearable
-            isOptionDisabled={() => tags.length >= 4}
-            options={tagList}
-            onChange={(e) => setTags(e)}
-          />
-          <p>Select up to 4.</p>
-        </label>
-        <label htmlFor="description">
-          <p>Club URL</p>
-          thhsclubs.com/
-          <input
-            required
-            type="text"
-            name="clubDescription"
-            value={url}
-            onChange={(e) => {
-              setUrl(e.target.value);
-            }}
-            placeholder="Club URL"
-          />
-        </label>
+  if (isSignedIn) {
+    return (
+      <section>
+        <h1>Register a Club</h1>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="name">
+            <p>Club Name</p>
+            <input
+              required
+              type="text"
+              name="clubName"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+              placeholder="Club Name"
+            />
+          </label>
+          <label htmlFor="description">
+            <p>Club Description</p>
+            <input
+              required
+              type="text"
+              name="clubDescription"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+              placeholder="Club Description"
+            />
+          </label>
+          <label htmlFor="logo">
+            <p>Logo URL</p>
+            <input
+              required
+              type="url"
+              value={logo}
+              onChange={(e) => {
+                setLogo(e.target.value);
+              }}
+              placeholder="Logo URL"
+            />
+          </label>
 
-        <button type="submit">Register</button>
-      </form>
-    </section>
-  );
+          <label htmlFor={"tags"}>
+            <p>Tags</p>
+            <Select
+              isMulti
+              isSearchable
+              isClearable
+              isOptionDisabled={() => tags.length >= 4}
+              options={tagList}
+              onChange={(e) => setTags(e)}
+            />
+            <p>Select up to 4.</p>
+          </label>
+          <label htmlFor="description">
+            <p>Club URL</p>
+            thhsclubs.com/
+            <input
+              required
+              type="text"
+              name="clubDescription"
+              value={url}
+              onChange={(e) => {
+                setUrl(e.target.value);
+              }}
+              placeholder="Club URL"
+            />
+          </label>
+
+          <button type="submit">Register</button>
+        </form>
+      </section>
+    );
+  } else return <h1>You must sign in to register a club!</h1>;
 }

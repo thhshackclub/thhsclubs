@@ -78,15 +78,22 @@ export default function Page({
     return <p>{error}</p>;
   } else
     return (
-      <div>
-        <h1>
+      <div className={"grid grid-cols-1 justify-center gap-6"}>
+        <h1 className={"text-center"}>
           {new_value} Attendance for {clubName}
         </h1>
-        <p>
-          Signed in as {loading ? "" : <MemberName uid={uid} displayOnly />}
-        </p>
+        <div>
+          <p className={"text-center"}>
+            Signed in as {loading ? "" : <MemberName uid={uid} displayOnly />}
+          </p>
 
-        <button onClick={handleSubmit}>I was here!</button>
+          <button
+            className={"border-2 px-2 py-1 mx-auto w-fit"}
+            onClick={handleSubmit}
+          >
+            <span> I was here! </span>
+          </button>
+        </div>
 
         <div className={"flex justify-center"}>
           <QRCode

@@ -107,7 +107,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       ) : (
         <div
           className={
-            "grid md:grid-cols-2 grid-cols-1 mx-8 md:mx-24 xl:mx-48 gap-4 lg:gap-0"
+            "grid md:grid-cols-2 grid-cols-1 mx-8 md:mx-16 md:mt-6 xl:mx-48 gap-4 lg:gap-0"
           }
         >
           <div>
@@ -143,18 +143,8 @@ export default function Page({ params }: { params: { slug: string } }) {
           </div>
 
           <div>
-            {adminIds.indexOf(uid) !== -1 ? (
-              <button
-                onClick={() => {
-                  setAdminMenuOpened(!adminMenuOpened);
-                }}
-                className={"border-2 p-2 bg-amber-300"}
-              >
-                Edit Club
-              </button>
-            ) : (
-              <></>
-            )}
+            {adminMenuOpened ? <AdminMenu faculty clubId={clubId} /> : ""}
+
             {!isFaculty ? (
               <>
                 {loggedIn ? (
@@ -173,7 +163,18 @@ export default function Page({ params }: { params: { slug: string } }) {
                 View Club Info
               </button>
             )}
-            {adminMenuOpened ? <AdminMenu faculty clubId={clubId} /> : ""}
+            {adminIds.indexOf(uid) !== -1 ? (
+              <button
+                onClick={() => {
+                  setAdminMenuOpened(!adminMenuOpened);
+                }}
+                className={"border-2 p-2 bg-amber-300"}
+              >
+                Edit Club
+              </button>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       )}

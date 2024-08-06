@@ -16,14 +16,14 @@ export default function MeetingGrid(props: {
 
   const [data, setData] = useState<any[]>([]);
 
-  let columns = ["Name"];
+  let columns = [html(`<p>Name</p>`)];
   props.meetingList.map((meeting: { [x: string]: string }) => {
     // @ts-ignore
     columns.push(
       html(
-        `<a href='/clubs/${props.clubId}/${moment(meeting["date"]).format(
-          "MMDDYY"
-        )}'>${moment(meeting["date"]).format("MM/DD/YY")}</a>`
+        `<a class="px-2" href='/clubs/${props.clubId}/${moment(
+          meeting["date"]
+        ).format("MMDDYY")}'>${moment(meeting["date"]).format("MM/DD/YY")}</a>`
       )
     );
   });
@@ -47,14 +47,16 @@ export default function MeetingGrid(props: {
         for (let m in props.meetingList) {
           tempData[i].push(
             html(
-              `<input id=${
-                moment(props.meetingList[m]["date"]).format("MMDDYY") +
-                member["uid"]
-              } type='checkbox' ${
+              `<div class="flex justify-center">
+                <input id=${
+                  moment(props.meetingList[m]["date"]).format("MMDDYY") +
+                  member["uid"]
+                } type='checkbox' ${
                 props.meetingList[m]["present"].indexOf(member["uid"]) > -1
                   ? "checked"
                   : ""
-              } onclick='return false;' />`
+              } onclick='return false;' />
+                </div>`
             )
           );
         }
@@ -64,15 +66,22 @@ export default function MeetingGrid(props: {
       setLoading(false);
     }
 
-    fetchData();
+    fetchData().then(() => {
+      document
+        .getElementById("gridjs-td")
+        ?.style.setProperty("margin-left", "auto");
+      document
+        .getElementById("gridjs-td")
+        ?.style.setProperty("margin-right", "auto");
+    });
   }, [props.members, props.meetingList]);
 
   if (loading) return <div>Loading...</div>;
   if (props.meetingList.length === 0) return <div>No meetings found.</div>;
   return (
-    <>
+    <div className={"overflow-x-scroll"}>
       <Grid columns={columns} data={data} />
       {/*<button onClick={handleSubmit}>Submit</button>*/}
-    </>
+    </div>
   );
 }

@@ -51,7 +51,9 @@ export default function Register(props: { clubId: string }) {
   return (
     <>
       {registered ? (
-        <span>You are a member of this club.</span>
+        <span className={"md:block inline"}>
+          You are a member of this club.
+        </span>
       ) : (
         <button onClick={handleSubmit} className={"border-2 p-2 bg-amber-300"}>
           Register

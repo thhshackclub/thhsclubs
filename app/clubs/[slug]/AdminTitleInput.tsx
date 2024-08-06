@@ -22,7 +22,7 @@ export default function AdminTitleInput(props: {
   }
 
   return (
-    <div className={"inline flex"}>
+    <div className={"flex"}>
       <input
         className={"border-2 rounded-l"}
         value={title}
@@ -31,7 +31,7 @@ export default function AdminTitleInput(props: {
         }}
       />
       <button onClick={handleSubmit} className={"border-0 p-0"}>
-        <Save />
+        <Save className={"hover:stroke-primary"} />
       </button>
     </div>
   );

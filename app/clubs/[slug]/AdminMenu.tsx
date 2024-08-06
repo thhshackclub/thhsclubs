@@ -101,40 +101,53 @@ export default function AdminMenu(props: {
   }
 
   function totalMeetingsAttended(i: number) {
-    return members[i]["attendedMeetings"].length;
+    if (
+      Array.isArray(members[i]["attendedMeetings"]) &&
+      members[i]["attendedMeetings"].length > 0
+    ) {
+      return members[i]["attendedMeetings"].length;
+    } else {
+      return 0;
+    }
   }
 
   return (
-    <section className={"w-screen border-2 mx-2"}>
-      <h1>Admin Menu</h1>
-      <h2>Meetings</h2>
-      <form onSubmit={handleSubmit}>
-        <h3>Add meeting date</h3>
-        <input
-          className={`form__input  ${
-            !meetingDate && "form__input--incomplete"
-          }`}
-          id="fromDate"
-          name="fromDate"
-          type="date"
-          autoComplete="off"
-          value={
-            meetingDate.getFullYear().toString() +
-            "-" +
-            (meetingDate.getMonth() + 1).toString().padStart(2, 0) +
-            "-" +
-            meetingDate.getDate().toString().padStart(2, 0)
-          }
-          onChange={(e) => {
-            setMeetingDate(new Date(e.target.value));
-          }}
-        />
-        <button className={"border-0 p-0"}>
-          <PlusSquare />
-        </button>
+    <section className={"md:w-screen mx-2 grid grid-cols-1 gap-6 mb-10"}>
+      {/*<h1>Admin Menu</h1>*/}
+      <h1>Meetings</h1>
+      <form
+        onSubmit={handleSubmit}
+        className={"flex flex-col mx-auto md:mx-0 md:grid md:w-fit"}
+      >
+        <h2 className={""}>Add meeting date</h2>
+        <div className={"flex justify-center md:justify-left"}>
+          <input
+            className={`form__input  ${
+              !meetingDate && "form__input--incomplete"
+            }               
+`}
+            id="fromDate"
+            name="fromDate"
+            type="date"
+            autoComplete="off"
+            value={
+              meetingDate.getFullYear().toString() +
+              "-" +
+              (meetingDate.getMonth() + 1).toString().padStart(2, 0) +
+              "-" +
+              meetingDate.getDate().toString().padStart(2, 0)
+            }
+            onChange={(e) => {
+              setMeetingDate(new Date(e.target.value));
+            }}
+          />
+          <button className={"border-0 p-0"}>
+            <PlusSquare />
+          </button>
+        </div>
       </form>
-      <div>
-        <h3>Meeting List</h3>
+      <div className={"flex flex-col"}>
+        <h2 className={""}>Meeting List</h2>
         <MeetingGrid
           meetingList={meetingList}
           members={members}
@@ -142,40 +155,33 @@ export default function AdminMenu(props: {
         />
       </div>
 
-      <h1 className={"inline"}>Members</h1>
-      {/*<div className={'grid gap-4 grid-cols-10'}>*/}
-      {/*	{members.map( (member, i) => {return <div key={i}>{member['uid']}</div>} )}*/}
-      {/*</div>*/}
-      <HelpCircle className={"peer inline "} />
-      <p
-        className={
-          "peer-hover:opacity-100 opacity-0 absolute z-10 bg-green-200"
-        }
-      >
-        The number in the parenthesis indicates the number of meetings that
-        person has attended this year.
-      </p>
-      <button
-        className={"border-0 p-0"}
-        onClick={() => setShowMembers(!showMembers)}
-      >
-        {showMembers ? <ChevronUp /> : <ChevronDown />}
-      </button>
-      <ul>
-        {showMembers
-          ? members.map((member, i) => (
-              <li>
-                <MemberName
-                  displayOnly={true}
-                  clubId={props.clubId}
-                  uid={member["uid"]}
-                  key={i}
-                />{" "}
-                ({totalMeetingsAttended(i)})
-              </li>
-            ))
-          : ""}
-      </ul>
+      <div>
+        <div className={"flex justify-center md:justify-start"}>
+          <h1 className={"inline"}>Members</h1>
+          <button
+            className={"border-0 p-0"}
+            onClick={() => setShowMembers(!showMembers)}
+          >
+            {showMembers ? <ChevronUp /> : <ChevronDown />}
+          </button>
+        </div>
+
+        <ul>
+          {showMembers
+            ? members.map((member, i) => (
+                <li key={i}>
+                  <MemberName
+                    displayOnly={true}
+                    clubId={props.clubId}
+                    uid={member["uid"]}
+                    key={i}
+                  />{" "}
+                  ({totalMeetingsAttended(i)})
+                </li>
+              ))
+            : ""}
+        </ul>
+      </div>
     </section>
   );
 }

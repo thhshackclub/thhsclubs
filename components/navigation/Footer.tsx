@@ -8,12 +8,15 @@ export default function Footer() {
       }
     >
       <a
-        className={"p-0 border-0"}
+        className={"p-0 border-0 h-fit"}
         href={"https://github.com/thhshackclub/thhsclubs"}
       >
+        <br />
         <GitHub className={"hover:text-gray-500"} />
       </a>
+
       <p className={"text-right"}>
+        <p>Pre-release 0.0.1</p>
         Created and maintained by{" "}
         <a href={"https://instagram.com/thhs.hackclub"}>THHS Hack Club</a>.
       </p>

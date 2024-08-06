@@ -40,6 +40,7 @@ export default function Tags(props: {
     return (
       <div>
         <div className={"inline"}>
+          <h2>Edit Tags</h2>
           <Select
             isMulti
             isSearchable

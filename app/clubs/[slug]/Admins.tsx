@@ -40,6 +40,7 @@ export default function Admins(props: {
         role: "admin",
         title: title,
         uid: d.id,
+        attendedMeetings: [],
       });
       // @ts-ignore
       updateDoc(doc(db, `clubs/${props.clubId}`), {
@@ -69,19 +70,18 @@ export default function Admins(props: {
   return (
     <div className={"my-10"}>
       <h2>Executive Board</h2>
-
       {props.admins.map((adminId, i) => {
         return (
-          <div key={i} className={"my-4"}>
+          <div key={i} className={"mt-6 md:my-4"}>
             {props.adminMenuOpened ? (
               //   admin menu opened
-              <li key={i} className={"grid grid-cols-1 md:flex gap-2"}>
+              <li key={i} className={"grid grid-cols-1 lg:flex md:gap-2"}>
                 <p className={"text-xl flex"}>
                   <MemberName uid={adminId["uid"]} displayOnly />
 
-                  {/*for small displays*/}
+                  {/*for small & md displays*/}
                   <button
-                    className={"border-0 p-0 md:hidden "}
+                    className={"border-0 p-0 lg:hidden "}
                     onClick={(e) => {
                       e.preventDefault();
                       if (
@@ -91,25 +91,26 @@ export default function Admins(props: {
                       }
                     }}
                   >
-                    <Trash />
+                    <Trash className={"hover:stroke-primary"} />
                   </button>
                 </p>
-                <AdminTitleInput
-                  initialTitle={adminId["title"]}
-                  clubId={props.clubId}
-                  uid={adminId["uid"]}
-                />
-                {/*for md+ displays*/}
+                <div className={"flex my-auto"}>
+                  <span className={"md:hidden"}>Edit Title: </span>
+                  <AdminTitleInput
+                    initialTitle={adminId["title"]}
+                    clubId={props.clubId}
+                    uid={adminId["uid"]}
+                  />
+                </div>
+                {/*for lg+ displays*/}
                 <button
-                  className={
-                    "hover:text-primary flex border-0 p-0 hidden md:inline"
-                  }
+                  className={"hover:text-primary border-0 p-0 hidden lg:flex"}
                   onClick={(e) => {
                     e.preventDefault();
                     removeAdmin(adminId["uid"]);
                   }}
                 >
-                  <Trash className={"hover:text-primary"} />
+                  <Trash className={"hover:stroke-primary"} />
                 </button>
               </li>
             ) : (
@@ -125,22 +126,25 @@ export default function Admins(props: {
         );
       })}
       {props.adminMenuOpened ? (
-        <div className={"border-t-2"}>
+        <div className={"border-t-2 mt-8 pt-2 flex flex-col lg:flex-row gap-2"}>
+          <h3>Add Club Executives</h3>
           <input
             placeholder={"OSIS Number"}
             type={"number"}
             value={newAdmin}
             onChange={(e) => setNewAdmin(e.target.value)}
           />
-          <input
-            placeholder={"Title"}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+          <div className={"flex justify-between"}>
+            <input
+              placeholder={"Title"}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
 
-          <button className={"border-0"} onClick={handleSubmit}>
-            <PlusSquare />
-          </button>
+            <button className={"border-0"} onClick={handleSubmit}>
+              <PlusSquare />
+            </button>
+          </div>
         </div>
       ) : null}
     </div>
