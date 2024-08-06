@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <section
       className={
-        "bg-green-200 w-screen absolute bottom-0 pt-4 pb-2 px-4 flex justify-between"
+        "bg-bg w-screen absolute bottom-0 pt-4 pb-2 px-4 flex justify-between"
       }
     >
       <a
@@ -13,7 +13,10 @@ export default function Footer() {
       >
         <GitHub className={"hover:text-gray-500"} />
       </a>
-      <p className={"text-right"}>Created and managed by THHS Hack Club.</p>
+      <p className={"text-right"}>
+        Created and maintained by{" "}
+        <a href={"https://instagram.com/thhs.hackclub"}>THHS Hack Club</a>.
+      </p>
     </section>
   );
 }

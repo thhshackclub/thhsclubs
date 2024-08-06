@@ -4,7 +4,7 @@ import "./globals.css";
 import { AuthContextProvider } from "@/context/AuthContext";
 import Navbar from "@/components/navigation/Navbar";
 import getLoggedIn from "@/components/getLoggedIn";
-import Footer from "@/components/Footer";
+import Footer from "@/components/navigation/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,9 +31,11 @@ export default function RootLayout({ children }) {
         head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>
+      <body className={"min-h-screen relative"}>
         <Navbar />
-        <AuthContextProvider>{children}</AuthContextProvider>
+        <div className={"pb-20"}>
+          <AuthContextProvider>{children}</AuthContextProvider>
+        </div>
         <Footer />
       </body>
     </html>

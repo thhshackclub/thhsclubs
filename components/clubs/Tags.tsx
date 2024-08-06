@@ -21,13 +21,13 @@ export default function Tags(props: {
 
   if (!props.adminMenuOpened) {
     return (
-      <div>
+      <div className={""}>
         {props.tagList.map((tag, i: number) => {
           return (
             <p
               key={i}
               className={
-                "rounded-3xl border-2 bg-yellow-200 inline-block w-fit px-4 py-1"
+                "rounded-3xl drop-shadow-md bg-accent inline-block w-fit px-4 py-1 my-1 mx-0.5"
               }
             >
               {tag["label"]}

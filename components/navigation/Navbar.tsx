@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Simulate } from "react-dom/test-utils";
 import drop = Simulate.drop;
 import signout from "@/firebase/auth/signout";
+import MobileNavbar from "@/components/navigation/MobileNavbar";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
@@ -43,43 +44,55 @@ export default function Navbar() {
     }
   });
 
-  function handleLogOut(e: { preventDefault: () => void }) {
-    e.preventDefault();
+  function handleLogOut() {
     signout();
   }
 
   const pathname = usePathname();
   if (pathname !== "/") {
     return (
-      <section className={"w-screen bg-bg flex justify-between px-20"}>
-        {/*<p className={"font-black text-xl"}>THHS Clubs</p>*/}
-        <img src={"/logo.png"} alt={"THHS Clubs"} className={"w-20"} />
-        <a href={"/clubs"} className={"my-auto text-lg font-display"}>
-          Discover
-        </a>
-        <a href={"/myclubs"} className={"my-auto text-lg font-display"}>
-          My Clubs
-        </a>
-        {/*@ts-ignore*/}
-        <div className={"flex gap-2"} ref={dropDown}>
-          <button
-            className={"border-0 p-0"}
-            onClick={() => setProfileDropdown(!profileDropdown)}
-          >
-            <User />
-          </button>
-          {profileDropdown ? (
-            <div className={"absolute top-20 border-2 flex flex-col bg-bg"}>
-              <a>{loading ? "" : <MemberName displayOnly uid={user} />}</a>
-              <button onClick={handleLogOut}>Log Out</button>
-            </div>
-          ) : (
-            ""
-          )}
-          {/*<span>{loading ? "" : user}</span>*/}
-          {/*<span>{loading ? "" : <MemberName displayOnly uid={user} />}</span>*/}
-        </div>
-      </section>
+      <>
+        {/*desktop nav*/}
+        <section
+          className={"w-screen bg-bg  justify-between px-20 md:flex hidden"}
+        >
+          {/*<p className={"font-black text-xl"}>THHS Clubs</p>*/}
+          <img src={"/logo.png"} alt={"THHS Clubs"} className={"w-20"} />
+          <a href={"/clubs"} className={"my-auto text-lg font-display"}>
+            Discover
+          </a>
+          <a href={"/myclubs"} className={"my-auto text-lg font-display"}>
+            My Clubs
+          </a>
+          {/*@ts-ignore*/}
+          <div className={"flex gap-2"} ref={dropDown}>
+            <button
+              className={"border-0 p-0"}
+              onClick={() => setProfileDropdown(!profileDropdown)}
+            >
+              <User />
+            </button>
+            {profileDropdown ? (
+              <div className={"absolute top-20 border-2 flex flex-col bg-bg"}>
+                <a>{loading ? "" : <MemberName displayOnly uid={user} />}</a>
+                <button onClick={handleLogOut}>Log Out</button>
+              </div>
+            ) : (
+              ""
+            )}
+            {/*<span>{loading ? "" : user}</span>*/}
+            {/*<span>{loading ? "" : <MemberName displayOnly uid={user} />}</span>*/}
+          </div>
+        </section>
+
+        <MobileNavbar
+          user={user}
+          handleLogOut={(e) => {
+            e.preventDefault();
+            handleLogOut();
+          }}
+        />
+      </>
     );
   } else return "";
 }

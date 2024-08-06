@@ -50,11 +50,12 @@ export default function Page({ params }: { params: { slug: string } }) {
     const docSnap = await getDoc(doc(db, "clubs", params.slug));
 
     let hold: any = [];
-    docSnap.data();
-    setClubId(docSnap.id);
-    setClub(docSnap.data());
-    setEditedDescription(club["description"]);
-    setAdminIds(docSnap.data()["admins"]);
+    if (docSnap.exists()) {
+      setClubId(docSnap.id);
+      setClub(docSnap.data());
+      setEditedDescription(club["description"]);
+      setAdminIds(docSnap.data()["admins"]);
+    } else setClubNotFound(true);
   }
 
   async function searchAdmins() {
@@ -84,76 +85,81 @@ export default function Page({ params }: { params: { slug: string } }) {
     searchClubInfo();
   }, [adminMenuOpened]);
 
+  if (clubNotFound) {
+    return (
+      <section className={"flex justify-center my-10 flex-col"}>
+        <h1 className={"text-center"}>Club Not Found!</h1>
+        <p className={"text-center"}>
+          Make sure the URL is typed correctly. Please contact THHS Hack Club if
+          the problem persists.
+        </p>
+      </section>
+    );
+  }
+
   return (
     <section>
-      {isFaculty}
-      {clubNotFound ? (
-        <h1>Club Not Found</h1>
+      {loading ? (
+        <Loading />
       ) : (
-        <div>
-          {loading ? (
-            <Loading />
-          ) : (
-            <div className={"grid grid-cols-2 mx-24 xl:mx-48 gap-4 lg:gap-0"}>
-              <div>
-                <h1 className={"text-4xl"}>{club["name"]}</h1>
-                <img
-                  className={"rounded-xl w-96"}
-                  src={club["logo"]}
-                  alt={`${club["name"]} logo`}
-                />
-              </div>
+        <div className={"grid grid-cols-2 mx-24 xl:mx-48 gap-4 lg:gap-0"}>
+          <div>
+            <h1 className={"text-4xl"}>{club["name"]}</h1>
+            <img
+              className={"rounded-xl w-96"}
+              src={club["logo"]}
+              alt={`${club["name"]} logo`}
+            />
+          </div>
 
-              {/*info*/}
-              <div className={"mt-[2.5rem]"}>
-                <Description
-                  adminMenuOpened={adminMenuOpened}
-                  desc={club["description"]}
-                  clubId={club["url"]}
-                />
+          {/*info*/}
+          <div className={"mt-[2.5rem]"}>
+            <Description
+              adminMenuOpened={adminMenuOpened}
+              desc={club["description"]}
+              clubId={club["url"]}
+            />
 
-                <Admins
-                  admins={admins}
-                  adminMenuOpened={adminMenuOpened}
-                  clubId={club["url"]}
-                />
+            <Admins
+              admins={admins}
+              adminMenuOpened={adminMenuOpened}
+              clubId={club["url"]}
+            />
 
-                <Tags
-                  tagList={club["tags"]}
-                  clubId={club["url"]}
-                  adminMenuOpened={adminMenuOpened}
-                />
-              </div>
+            <Tags
+              tagList={club["tags"]}
+              clubId={club["url"]}
+              adminMenuOpened={adminMenuOpened}
+            />
+          </div>
 
-              <div>
-                {adminIds.indexOf(uid) !== -1 ? (
-                  <button
-                    onClick={() => {
-                      setAdminMenuOpened(!adminMenuOpened);
-                    }}
-                    className={"border-2 p-2 bg-amber-300"}
-                  >
-                    Edit Club
-                  </button>
-                ) : (
-                  <></>
-                )}
-                {!isFaculty ? (
-                  <Register clubId={clubId} />
-                ) : (
-                  <button
-                    onClick={() => {
-                      setAdminMenuOpened(!adminMenuOpened);
-                    }}
-                    className={"border-2 p-2 bg-amber-300"}
-                  >
-                    View Club Info
-                  </button>
-                )}
-                {adminMenuOpened ? <AdminMenu faculty clubId={clubId} /> : ""}
-              </div>
-            </div>
-          )}
+          <div>
+            {adminIds.indexOf(uid) !== -1 ? (
+              <button
+                onClick={() => {
+                  setAdminMenuOpened(!adminMenuOpened);
+                }}
+                className={"border-2 p-2 bg-amber-300"}
+              >
+                Edit Club
+              </button>
+            ) : (
+              <></>
+            )}
+            {!isFaculty ? (
+              <Register clubId={clubId} />
+            ) : (
+              <button
+                onClick={() => {
+                  setAdminMenuOpened(!adminMenuOpened);
+                }}
+                className={"border-2 p-2 bg-amber-300"}
+              >
+                View Club Info
+              </button>
+            )}
+            {adminMenuOpened ? <AdminMenu faculty clubId={clubId} /> : ""}
+          </div>
         </div>
       )}
     </section>
