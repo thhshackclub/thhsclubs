@@ -7,10 +7,9 @@ import SignUp from "@/components/auth/SignUp";
 
 export default function Home() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [logInForm, setLogInForm] = useState(false);
-  const [signUpForm, setSignUpForm] = useState(false);
 
   const auth = getAuth();
+
   onAuthStateChanged(auth, (user) => {
     if (user) setLoggedIn(true);
   });
@@ -23,27 +22,11 @@ export default function Home() {
           <br />
           Clubs
         </h1>
-        <p>Townsend's database for all things extracurricular.</p>
+        <p>Townsend Harris's database for all things extracurricular.</p>
         <div className={"flex gap-2 mt-10"}>
-          <button
-            onClick={() => {
-              setSignUpForm(!signUpForm);
-              setLogInForm(false);
-            }}
-          >
-            Sign Up
-          </button>
-          <button
-            onClick={() => {
-              setLogInForm(!logInForm);
-              setSignUpForm(false);
-            }}
-          >
-            Login
-          </button>
+          <a href={"/signup"}>Sign Up</a>
+          <a href={"/signin"}>Login</a>
         </div>
-        <div>{logInForm ? <SignIn /> : ""}</div>
-        <div>{signUpForm ? <SignUp /> : ""}</div>
       </main>
     );
   } else redirect("/clubs");

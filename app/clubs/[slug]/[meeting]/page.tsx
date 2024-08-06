@@ -30,12 +30,7 @@ export default function Page({
       if (docSnap.data()["present"].includes(uid)) {
         setError("You have already recorded your attendance for this meeting.");
       }
-      if (moment(new_value).diff(moment(), "days") > 0) {
-        setError(
-          "This meeting has not happened yet. Please wait until the meeting date to record your attendance."
-        );
-      }
-      if (moment(new_value).diff(moment(), "days") < 1) {
+      if (moment(new_value).diff(moment(), "days") > 2) {
         setError("The attendance window has closed for this meeting.");
       }
     } else {
