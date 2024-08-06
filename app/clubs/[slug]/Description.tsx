@@ -34,7 +34,12 @@ export default function Description(props: {
           value={editedDescription}
           onChange={(e) => setEditedDescription(e.target.value)}
         />
-        <button className={"border-2 p-2 w-fit"} onClick={handleSubmit}>
+        <button
+          className={
+            "mt-1 w-fit text-center text-xl border-2 p-2 rounded-md hover:bg-accent hover:border-primary transition"
+          }
+          onClick={handleSubmit}
+        >
           Submit
         </button>
       </div>

@@ -5,9 +5,15 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import getLoggedIn from "@/components/getLoggedIn";
 import tagList from "@/components/tags";
 import Select from "react-select";
-import { addDoc, collection, doc } from "firebase/firestore";
+import { addDoc, collection, doc, query, where } from "firebase/firestore";
 import db from "@/firebase/firestore/firestore";
-import { setDoc } from "@firebase/firestore";
+import {
+  arrayRemove,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "@firebase/firestore";
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -20,6 +26,8 @@ export default function Page() {
   const [url, setUrl] = useState("");
   const [error, setError] = useState(null);
   const [tags, setTags] = useState([]);
+  const [accessCode, setAccessCode] = React.useState("");
+
   const auth = getAuth();
   let uid: string;
   onAuthStateChanged(auth, (user) => {
@@ -29,13 +37,40 @@ export default function Page() {
     }
   });
 
+  async function checkDuplicate() {
+    let containsDuplicate = false;
+    const querySnapshot = await getDocs(collection(db, "clubs"));
+    querySnapshot.forEach((doc) => {
+      if (doc.id === url) {
+        containsDuplicate = true;
+      }
+    });
+    return containsDuplicate;
+  }
+
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     // console.log(name, description, logo);
     if (url == "register") {
       alert(`Invalid URL. Club URL cannot be "${url}".`);
       return;
+    } else {
+      if (await checkDuplicate()) {
+        return alert(`Invalid URL. Club URL "${url}" already exists.`);
+      }
     }
+    const codeQuery = await getDoc(doc(db, "accessCodes", "codes"));
+    if (codeQuery.exists()) {
+      const validCodes = codeQuery.data()["clubCreationCodes"];
+      if (validCodes.indexOf(accessCode) === -1) {
+        return alert("Error in creating your club. Access code is invalid.");
+      } else {
+        await updateDoc(doc(db, "accessCodes", "codes"), {
+          clubCreationCodes: arrayRemove(accessCode),
+        });
+      }
+    } else return alert("Error in creating your club. Please try again later.");
+
     await setDoc(doc(db, "clubs", url), {
       name: name.trim(),
       description: description,
@@ -54,6 +89,11 @@ export default function Page() {
       uid: uid,
       attendedMeetings: [],
     });
+    await addDoc(collection(db, `clubs/${url}/links`), {
+      description: "Placeholder",
+      icon: "externalLink",
+      url: "https://google.com",
+    });
   }
 
   if (isSignedIn) {
@@ -61,12 +101,16 @@ export default function Page() {
       <section>
         <h1>Register a Club</h1>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="name">
+          <label
+            htmlFor="name"
+            className={"flex flex-col mx-auto md:grid md:w-fit"}
+          >
             <p>Club Name</p>
             <input
               required
               type="text"
               name="clubName"
+              className={"rounded-md border-2 py-1 pl-1"}
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -74,12 +118,16 @@ export default function Page() {
               placeholder="Club Name"
             />
           </label>
-          <label htmlFor="description">
+          <label
+            htmlFor="description"
+            className={"flex flex-col mx-auto md:grid md:w-fit"}
+          >
             <p>Club Description</p>
             <input
               required
               type="text"
               name="clubDescription"
+              className={"rounded-md border-2 py-1 pl-1"}
               value={description}
               onChange={(e) => {
                 setDescription(e.target.value);
@@ -87,12 +135,16 @@ export default function Page() {
               placeholder="Club Description"
             />
           </label>
-          <label htmlFor="logo">
+          <label
+            htmlFor="logo"
+            className={"flex flex-col mx-auto md:grid md:w-fit"}
+          >
             <p>Logo URL</p>
             <input
               required
               type="url"
               value={logo}
+              className={"rounded-md border-2 py-1 pl-1"}
               onChange={(e) => {
                 setLogo(e.target.value);
               }}
@@ -100,7 +152,10 @@ export default function Page() {
             />
           </label>
 
-          <label htmlFor={"tags"}>
+          <label
+            htmlFor={"tags"}
+            className={"flex flex-col mx-auto md:grid md:w-fit"}
+          >
             <p>Tags</p>
             <Select
               isMulti
@@ -112,13 +167,17 @@ export default function Page() {
             />
             <p>Select up to 4.</p>
           </label>
-          <label htmlFor="description">
+          <label
+            htmlFor="description"
+            className={"flex flex-col mx-auto md:grid md:w-fit"}
+          >
             <p>Club URL</p>
             thhsclubs.com/
             <input
               required
               type="text"
               name="clubDescription"
+              className={"rounded-md border-2 py-1 pl-1"}
               value={url}
               onChange={(e) => {
                 setUrl(e.target.value);
@@ -126,8 +185,32 @@ export default function Page() {
               placeholder="Club URL"
             />
           </label>
+          <label
+            htmlFor="accessCode"
+            className={"flex flex-col mx-auto md:grid md:w-fit"}
+          >
+            <p>Club Creation Code</p>
+            <input
+              value={accessCode}
+              onChange={(e) => setAccessCode(e.target.value)}
+              required
+              name="accessCode"
+              id="accessCode"
+              placeholder="Access Code"
+              className={"rounded-md border-2 py-1 pl-1"}
+            />
+          </label>
 
-          <button type="submit">Register</button>
+          <div className={"flex justify-center pt-12"}>
+            <button
+              className={
+                "text-center w-fit mx-auto text-xl border-2 rounded-md p-2 hover:bg-accent hover:border-primary transition"
+              }
+              type="submit"
+            >
+              Register
+            </button>
+          </div>
         </form>
       </section>
     );

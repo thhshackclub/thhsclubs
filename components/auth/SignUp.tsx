@@ -3,6 +3,9 @@ import React from "react";
 import signUp from "@/firebase/auth/signup";
 import { useRouter } from "next/navigation";
 import { number } from "prop-types";
+import { collection, deleteDoc, doc, query, where } from "firebase/firestore";
+import db from "@/firebase/firestore/firestore";
+import { arrayRemove, getDoc, getDocs, updateDoc } from "@firebase/firestore";
 
 function SignUp() {
   const [email, setEmail] = React.useState("");
@@ -12,6 +15,7 @@ function SignUp() {
   const [osis, setOsis] = React.useState<number>();
   const [accountType, setAccountType] = React.useState("student");
   const [grade, setGrade] = React.useState(0);
+  const [accessCode, setAccessCode] = React.useState("");
 
   const router = useRouter();
 
@@ -24,6 +28,19 @@ function SignUp() {
       );
       return;
     }
+
+    const codeQuery = await getDoc(doc(db, "accessCodes", "codes"));
+    if (codeQuery.exists()) {
+      const validCodes = codeQuery.data()["validCodes"];
+      if (validCodes.indexOf(accessCode) === -1) {
+        return alert("Error in creating your account. Access code is invalid.");
+      } else {
+        await updateDoc(doc(db, "accessCodes", "codes"), {
+          validCodes: arrayRemove(accessCode),
+        });
+      }
+    } else
+      return alert("Error in creating your account. Please try again later.");
 
     const { result, error } = await signUp(
       email,
@@ -41,7 +58,8 @@ function SignUp() {
 
     // else successful
     console.log(result);
-    return router.push("/admin");
+
+    return router.push("/clubs");
   };
 
   return (
@@ -134,6 +152,21 @@ function SignUp() {
               <option value={11}>11</option>
               <option value={12}>12</option>
             </select>
+          </label>
+          <label
+            htmlFor="accessCode"
+            className={"flex flex-col mx-auto md:grid md:w-fit"}
+          >
+            <p>Access Code</p>
+            <input
+              value={accessCode}
+              onChange={(e) => setAccessCode(e.target.value)}
+              required
+              name="accessCode"
+              id="accessCode"
+              placeholder="Access Code"
+              className={"rounded-md border-2 py-1 pl-1"}
+            />
           </label>
 
           <button

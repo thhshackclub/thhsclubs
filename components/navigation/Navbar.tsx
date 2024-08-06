@@ -59,7 +59,9 @@ export default function Navbar() {
           className={"w-screen bg-bg  justify-between px-20 md:flex hidden"}
         >
           {/*<p className={"font-black text-xl"}>THHS Clubs</p>*/}
-          <img src={"/logo.png"} alt={"THHS Clubs"} className={"w-20"} />
+          <a href={"/"}>
+            <img src={"/logo.png"} alt={"THHS Clubs"} className={"w-20"} />
+          </a>
           <a href={"/clubs"} className={"my-auto text-lg font-display"}>
             Discover
           </a>

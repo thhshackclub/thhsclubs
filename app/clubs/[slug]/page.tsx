@@ -13,6 +13,7 @@ import MemberName from "@/components/MemberName";
 import Description from "@/app/clubs/[slug]/Description";
 import Tags from "@/components/clubs/Tags";
 import Admins from "@/app/clubs/[slug]/Admins";
+import Links from "@/app/clubs/[slug]/Links";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [club, setClub] = useState({});
@@ -128,6 +129,8 @@ export default function Page({ params }: { params: { slug: string } }) {
               desc={club["description"]}
               clubId={club["url"]}
             />
+
+            <Links adminMenuOpened={adminMenuOpened} clubId={club["url"]} />
 
             <Admins
               admins={admins}

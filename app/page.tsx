@@ -16,16 +16,51 @@ export default function Home() {
 
   if (!loggedIn) {
     return (
-      <main className="m-10">
-        <h1 className={"text-7xl"}>
-          THHS
-          <br />
-          Clubs
-        </h1>
-        <p>Townsend Harris's database for all things extracurricular.</p>
-        <div className={"flex gap-2 mt-10"}>
-          <a href={"/signup"}>Sign Up</a>
-          <a href={"/signin"}>Login</a>
+      <main className="h-dvh bg-[url('/bg.svg')] bg-cover">
+        <div className={"flex justify-center py-10"}>
+          <h1 className={"text-7xl"}>
+            THHS
+            <br />
+            Clubs
+          </h1>
+          <img src={"/logo.png"} alt={"THHS Clubs"} className={"h-36"} />
+        </div>
+        <p className={"text-center text-lg"}>
+          Townsend Harris High School{`\'`}s database for all things
+          extracurricular.
+        </p>
+        <div
+          className={
+            "px-6 grid md:mx-24 lg:mx-36 xl:mx-64 2xl:mx-80 grid-cols-2 gap-2 justify-center mt-10"
+          }
+        >
+          <a
+            href={"/signup"}
+            className={
+              "text-center text-xl border-2 p-2 rounded-md hover:bg-accent hover:border-primary transition"
+            }
+          >
+            Sign Up
+          </a>{" "}
+          <a
+            href={"/signin"}
+            className={
+              "text-center text-xl border-2 rounded-md p-2 hover:bg-accent hover:border-primary transition"
+            }
+          >
+            Login
+          </a>
+        </div>
+        <div className={"flex justify-center mt-20 flex-col"}>
+          <p className={"text-center"}>No time?</p>
+          <a
+            href={"/clubs"}
+            className={
+              "text-center w-fit mx-auto text-xl border-2 rounded-md p-2 hover:bg-accent hover:border-primary transition"
+            }
+          >
+            Browse now
+          </a>
         </div>
       </main>
     );
