@@ -32,11 +32,13 @@ export default function RootLayout({ children }) {
       */}
       <head />
       <body className={"min-h-screen relative"}>
-        <Navbar />
         <div className={"pb-20"}>
-          <AuthContextProvider>{children}</AuthContextProvider>
+          <AuthContextProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </AuthContextProvider>
         </div>
-        <Footer />
       </body>
     </html>
   );
