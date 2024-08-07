@@ -22,6 +22,7 @@ function SignUp() {
   const handleForm = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
+    // @ts-ignore
     if (osis.toString().length !== 9) {
       alert(
         "Error in creating your account. OSIS number must be 9 digits long."
@@ -57,7 +58,7 @@ function SignUp() {
     }
 
     // else successful
-    console.log(result);
+    // console.log(result);
 
     return router.push("/clubs");
   };
@@ -129,8 +130,11 @@ function SignUp() {
             <input
               className={"rounded-md border-2 py-1 pl-1"}
               onChange={(e) => {
+                // @ts-ignore
                 setOsis(e.target.value);
+                // @ts-ignore
                 if (osis > 1000000000) {
+                  // @ts-ignore
                   setOsis(parseInt(osis.toString().slice(0, 9)));
                 }
               }}
@@ -146,6 +150,7 @@ function SignUp() {
             className={"flex flex-col mx-auto md:grid md:w-fit"}
           >
             <p>Grade</p>
+            {/*//   @ts-ignore*/}
             <select value={grade} onChange={(e) => setGrade(e.target.value)}>
               <option value={9}>9</option>
               <option value={10}>10</option>

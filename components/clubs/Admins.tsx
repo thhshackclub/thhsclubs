@@ -19,7 +19,7 @@ import {
   arrayRemove,
 } from "@firebase/firestore";
 import { update } from "@firebase/database";
-import AdminTitleInput from "@/app/clubs/[slug]/AdminTitleInput";
+import AdminTitleInput from "@/components/clubs/AdminTitleInput";
 
 export default function Admins(props: {
   clubId: string;
@@ -31,7 +31,7 @@ export default function Admins(props: {
 
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    console.log("submit");
+    // console.log("submit");
     const q = query(collection(db, "users"), where("OSIS", "==", newAdmin));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((d) => {

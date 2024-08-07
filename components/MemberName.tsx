@@ -33,7 +33,7 @@ export default function MemberName(props: {
       );
 
       if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
+        // console.log("Document data:", docSnap.data());
       } else {
         // docSnap.data() will be undefined in this case
         console.log("No such document!");

@@ -7,16 +7,28 @@ import { doc, getDoc, getDocs } from "@firebase/firestore";
 import { setLazyProp } from "next/dist/server/api-utils";
 import Register from "@/components/clubs/Register";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import AdminMenu from "@/app/clubs/[slug]/AdminMenu";
+import AdminMenu from "@/components/clubs/AdminMenu";
 import Loading from "@/components/Loading";
 import MemberName from "@/components/MemberName";
-import Description from "@/app/clubs/[slug]/Description";
+import Description from "@/components/clubs/Description";
 import Tags from "@/components/clubs/Tags";
-import Admins from "@/app/clubs/[slug]/Admins";
-import Links from "@/app/clubs/[slug]/Links";
+import Admins from "@/components/clubs/Admins";
+import Links from "@/components/clubs/Links";
 
 export default function Page({ params }: { params: { slug: string } }) {
-  const [club, setClub] = useState({});
+  const [club, setClub] = useState<{
+    name: string;
+    logo: string;
+    description: string;
+    url: string;
+    tags: any;
+  }>({
+    description: "",
+    logo: "",
+    name: "",
+    tags: undefined,
+    url: "",
+  });
   const [loading, setLoading] = useState(true);
   const [clubNotFound, setClubNotFound] = useState(false);
   const [clubId, setClubId] = useState();
@@ -40,7 +52,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         const docSnap = await getDoc(doc(db, "users", user.uid));
         // @ts-ignore
         if (docSnap.data()["type"] == "faculty") {
-          console.log("faculty");
+          // console.log("faculty");
           setIsFaculty(true);
         }
       }
@@ -55,7 +67,9 @@ export default function Page({ params }: { params: { slug: string } }) {
     if (docSnap.exists()) {
       // @ts-ignore
       setClubId(docSnap.id);
+      //   @ts-ignore
       setClub(docSnap.data());
+      //   @ts-ignore
       setEditedDescription(club["description"]);
       setAdminIds(docSnap.data()["admins"]);
       setLoading(false);
@@ -77,6 +91,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     });
 
     setAdmins(hold);
+    //   @ts-ignore
     setAdminIds(adminIdHold);
   }
 
@@ -84,10 +99,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     searchAdmins();
     searchClubInfo();
   }, [adminMenuOpened, loggedIn]);
-
-  // useEffect(() => {
-  //   searchClubInfo();
-  // }, [adminMenuOpened]);
 
   if (clubNotFound) {
     return (
@@ -101,6 +112,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     );
   }
 
+  // @ts-ignore
   return (
     <section>
       {loading ? (
@@ -140,17 +152,20 @@ export default function Page({ params }: { params: { slug: string } }) {
 
             <Tags
               tagList={club["tags"]}
+              // @ts-ignore
               clubId={club["url"]}
               adminMenuOpened={adminMenuOpened}
             />
           </div>
 
           <div>
+            {/*//   @ts-ignore*/}
             {adminMenuOpened ? <AdminMenu faculty clubId={clubId} /> : ""}
 
             {!isFaculty ? (
               <>
                 {loggedIn ? (
+                  // @ts-ignore
                   <Register clubId={clubId} />
                 ) : (
                   <p>Log in to register for clubs.</p>
@@ -166,6 +181,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                 View Club Info
               </button>
             )}
+            {/*//   @ts-ignore*/}
             {adminIds.indexOf(uid) !== -1 ? (
               <button
                 onClick={() => {

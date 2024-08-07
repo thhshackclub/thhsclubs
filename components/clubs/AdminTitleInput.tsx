@@ -11,7 +11,7 @@ export default function AdminTitleInput(props: {
 }) {
   const [title, setTitle] = useState(props.initialTitle);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     console.log("submit");
     await updateDoc(doc(db, "clubs", props.clubId, "members", props.uid), {

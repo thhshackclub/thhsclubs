@@ -34,6 +34,7 @@ export default function Page() {
     for (let i = 0; i < 100; i++) {
       hold.push(makeid(6));
     }
+    // @ts-ignore
     setCodes(hold).then((r) => alert("done"));
   }, []);
 

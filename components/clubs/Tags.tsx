@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { doc, updateDoc } from "@firebase/firestore";
 import db from "@/firebase/firestore/firestore";
 export default function Tags(props: {
+  clubId: string;
   tagList: any[];
   adminMenuOpened?: boolean;
 }) {
@@ -48,6 +49,7 @@ export default function Tags(props: {
             isOptionDisabled={() => tags.length >= 4}
             options={tagList}
             defaultValue={props.tagList}
+            //   @ts-ignore
             onChange={(e) => setTags(e)}
           />
           <p>Select up to 4.</p>

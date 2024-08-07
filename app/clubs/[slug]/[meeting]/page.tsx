@@ -19,6 +19,7 @@ export default function Page({
   const [loading, setLoading] = useState(true);
 
   var parts = params.meeting.match(/.{1,2}/g);
+  // @ts-ignore
   var new_value = parts.join("/");
 
   async function verifyDate() {
@@ -28,14 +29,16 @@ export default function Page({
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
       if (docSnap.data()["present"].includes(uid)) {
+        // @ts-ignore
         setError("You have already recorded your attendance for this meeting.");
       }
       if (moment(new_value).diff(moment(), "days") > 2) {
+        // @ts-ignore
         setError("The attendance window has closed for this meeting.");
       }
     } else {
-      // docSnap.data() will be undefined in this case
       setError(
+        //   @ts-ignore
         `There is no meeting for this club on this date. Please ensure the URL is correct, or contact THHS Hack Club for help.`
       );
     }
@@ -43,6 +46,7 @@ export default function Page({
 
   async function getClubName() {
     const docSnap = await getDoc(doc(db, "clubs", params.slug));
+    // @ts-ignore
     setClubName(docSnap.data()["name"]);
   }
 
@@ -59,6 +63,7 @@ export default function Page({
         present: arrayUnion(uid),
       }
     );
+    // @ts-ignore
     await updateDoc(doc(db, "clubs", params.slug, "members", uid), {
       attendedMeetings: arrayUnion(params.meeting),
     });
@@ -82,7 +87,8 @@ export default function Page({
   }
   if (error) {
     return <p>{error}</p>;
-  } else
+  } else {
+    // @ts-ignore
     return (
       <div className={"flex justify-center flex-col gap-6 pt-6 pb-32"}>
         <h1 className={"text-center"}>
@@ -90,6 +96,7 @@ export default function Page({
         </h1>
         <div className={"flex justify-center flex-col"}>
           <p className={"text-center"}>
+            {/*//   @ts-ignore*/}
             Signed in as {loading ? "" : <MemberName uid={uid} displayOnly />}
           </p>
 
@@ -111,4 +118,5 @@ export default function Page({
         </section>
       </div>
     );
+  }
 }

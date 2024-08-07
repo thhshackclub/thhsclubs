@@ -23,8 +23,8 @@ export default function Page() {
 
     docSnap.forEach((d) => {
       getDoc(doc(db, `clubs/${d.id}/members/${uid}`)).then((doc) => {
-        // console.log(d.id);
         if (doc.exists()) {
+          //   @ts-ignore
           setClubs((clubs) => [...clubs, d.id]);
         }
       });
@@ -33,7 +33,7 @@ export default function Page() {
   }
 
   useEffect(() => {
-    searchClubs();
+    searchClubs().then((r) => {});
   }, []);
 
   return (

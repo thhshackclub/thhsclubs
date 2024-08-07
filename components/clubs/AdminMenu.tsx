@@ -14,7 +14,7 @@ import MemberName from "@/components/MemberName";
 import moment from "moment";
 import { arrayRemove } from "@firebase/firestore/lite";
 import { ChevronDown, ChevronUp, HelpCircle } from "react-feather";
-import MeetingGrid from "@/app/clubs/[slug]/MeetingGrid";
+import MeetingGrid from "@/components/clubs/MeetingGrid";
 import { PlusSquare } from "react-feather";
 
 export default function AdminMenu(props: {
@@ -92,7 +92,7 @@ export default function AdminMenu(props: {
         });
       }
       if (document.getElementById(meeting + members[i]["uid"] + "false")) {
-        console.log(members[i]["uid"]);
+        // console.log(members[i]["uid"]);
         await updateDoc(doc(db, "clubs", props.clubId, "attendance", meeting), {
           present: arrayRemove(members[i]["uid"]),
         });
@@ -103,14 +103,17 @@ export default function AdminMenu(props: {
   function totalMeetingsAttended(i: number) {
     if (
       Array.isArray(members[i]["attendedMeetings"]) &&
+      // @ts-ignore
       members[i]["attendedMeetings"].length > 0
     ) {
+      // @ts-ignore
       return members[i]["attendedMeetings"].length;
     } else {
       return 0;
     }
   }
 
+  // @ts-ignore
   return (
     <section className={"md:w-screen mx-2 grid grid-cols-1 gap-6 mb-10"}>
       {/*<h1>Admin Menu</h1>*/}
@@ -133,8 +136,10 @@ export default function AdminMenu(props: {
             value={
               meetingDate.getFullYear().toString() +
               "-" +
+              //   @ts-ignore
               (meetingDate.getMonth() + 1).toString().padStart(2, 0) +
               "-" +
+              //   @ts-ignore
               meetingDate.getDate().toString().padStart(2, 0)
             }
             onChange={(e) => {

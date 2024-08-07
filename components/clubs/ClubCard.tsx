@@ -26,8 +26,8 @@ export default function ClubCard(props: { club: string }) {
 
   return (
     <section>
-      {clubsList.map((club) => (
-        <a href={`/clubs/${club["url"]}`}>
+      {clubsList.map((club, i) => (
+        <a key={i} href={`/clubs/${club["url"]}`}>
           <div key={club["id"]} className="rounded-2xl p-2 flex flex-col">
             <h2 className={"text-center"}>{club["name"]}</h2>
             <img

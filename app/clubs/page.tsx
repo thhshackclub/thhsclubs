@@ -1,10 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import read from "@/firebase/firestore/read";
 import { collection, getDocs } from "firebase/firestore";
 import db from "@/firebase/firestore/firestore";
-import DeleteItem from "@/components/DeleteItem";
-import Register from "@/components/clubs/Register";
 import Tags from "@/components/clubs/Tags";
 
 export default function Page() {
@@ -19,7 +16,7 @@ export default function Page() {
       );
     };
 
-    fetchItems();
+    fetchItems().then((r) => {});
   }, []);
 
   return (
@@ -44,7 +41,7 @@ export default function Page() {
                     <p className={""}>{club["description"]}</p>
                   </div>
                   <div>
-                    <Tags tagList={club["tags"]} />
+                    <Tags tagList={club["tags"]} clubId={club["url"]} />
                   </div>
                 </div>
               </a>

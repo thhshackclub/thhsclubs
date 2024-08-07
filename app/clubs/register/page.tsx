@@ -79,6 +79,7 @@ export default function Page() {
       url: url,
       admins: [uid],
     }).then((err) => {
+      // @ts-ignore
       if (err) {
         alert(err);
       } else alert("Club Registered");
@@ -97,6 +98,7 @@ export default function Page() {
   }
 
   if (isSignedIn) {
+    // @ts-ignore
     return (
       <section>
         <h1>Register a Club</h1>
@@ -163,6 +165,7 @@ export default function Page() {
               isClearable
               isOptionDisabled={() => tags.length >= 4}
               options={tagList}
+              // @ts-ignore
               onChange={(e) => setTags(e)}
             />
             <p>Select up to 4.</p>

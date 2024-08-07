@@ -18,7 +18,7 @@ import {
   Save,
   PlusSquare,
 } from "react-feather";
-import LinkInput from "@/app/clubs/[slug]/LinkInput";
+import LinkInput from "@/components/clubs/LinkInput";
 
 export default function Links(props: {
   clubId: string;
