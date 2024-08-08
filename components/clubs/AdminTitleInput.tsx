@@ -29,6 +29,7 @@ export default function AdminTitleInput(props: {
         onChange={(e) => {
           setTitle(e.target.value);
         }}
+        required
       />
       <button onClick={handleSubmit} className={"border-0 p-0"}>
         <Save className={"hover:stroke-primary"} />

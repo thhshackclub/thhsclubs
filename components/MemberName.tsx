@@ -24,44 +24,6 @@ export default function MemberName(props: {
         setName(doc.data().name["fName"] + " " + doc.data().name["lName"]);
       });
     }
-
-    async function getAttendance() {
-      // console.log(props.meetingId);
-
-      const docSnap = await getDoc(
-        doc(db, `clubs/${props.clubId}/attendance`, props.meetingId)
-      );
-
-      if (docSnap.exists()) {
-        // console.log("Document data:", docSnap.data());
-      } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
-      }
-
-      console.log(docSnap);
-      // @ts-ignore
-      docSnap.data()["present"].includes(props.uid)
-        ? setChecked(true)
-        : setChecked(false);
-    }
-
-    read().then((r) => {});
-    if (!props.displayOnly) getAttendance().then((r) => {});
-  }, []);
-
-  if (props.displayOnly) return <>{name}</>;
-  else
-    return (
-      <div>
-        <input
-          type={"checkbox"}
-          name={name}
-          id={`${props.meetingId}${props.uid}${checked ? "true" : "false"}`}
-          checked={checked}
-          onChange={() => setChecked(!checked)}
-        />
-        <label>{name}</label>
-      </div>
-    );
+  });
+  return <>{name}</>;
 }

@@ -36,7 +36,7 @@ export default function Register(props: { clubId: string }) {
     await setDoc(doc(db, `clubs/${props.clubId}/members/${uid}`), {
       uid: uid,
       role: "member",
-      name: <MemberName uid={uid} displayOnly={true} />,
+      // name: <MemberName uid={uid} displayOnly={true} />,
       attendedMeetings: [],
     })
       .then(() => {
