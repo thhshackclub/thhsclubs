@@ -70,7 +70,10 @@ export default function Navbar() {
           </a>
           {/*@ts-ignore*/}
           <div className={"flex gap-2"} ref={dropDown}>
-            <button onClick={() => setProfileDropdown(!profileDropdown)}>
+            <button
+              className={"border-0 p-0 hover:bg-transparent"}
+              onClick={() => setProfileDropdown(!profileDropdown)}
+            >
               <User className={"stroke-primary"} />
             </button>
             {profileDropdown ? (

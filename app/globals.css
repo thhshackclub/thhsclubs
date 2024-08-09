@@ -27,7 +27,8 @@ h3 {
 }
 
 button {
-    @apply hover:text-primary
+    @apply mt-1 w-fit text-center text-xl border-2 p-2 rounded-md hover:bg-accent hover:border-primary transition
+
 }
 
 a {

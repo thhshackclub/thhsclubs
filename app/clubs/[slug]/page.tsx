@@ -14,6 +14,7 @@ import Description from "@/components/clubs/Description";
 import Tags from "@/components/clubs/Tags";
 import Admins from "@/components/clubs/Admins";
 import Links from "@/components/clubs/Links";
+import IconPopout from "@/components/clubs/IconPopout";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [club, setClub] = useState<{
@@ -31,6 +32,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   });
   const [loading, setLoading] = useState(true);
   const [clubNotFound, setClubNotFound] = useState(false);
+  const [iconPopout, setIconPopout] = useState(false);
   const [clubId, setClubId] = useState();
   const [admins, setAdmins] = useState([]);
   const [adminIds, setAdminIds] = useState([]);
@@ -112,9 +114,15 @@ export default function Page({ params }: { params: { slug: string } }) {
     );
   }
 
+  function handleIconChange(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    setIconPopout(!iconPopout);
+  }
+
   // @ts-ignore
   return (
-    <section>
+    <section className={"relative"}>
+      {iconPopout ? <IconPopout clubId={club["url"]} /> : ""}
       {loading ? (
         <Loading />
       ) : (
@@ -127,11 +135,29 @@ export default function Page({ params }: { params: { slug: string } }) {
             <h1 className={"text-4xl text-center md:text-left"}>
               {club["name"]}
             </h1>
-            <img
-              className={"rounded-xl w-96"}
-              src={club["logo"]}
-              alt={`${club["name"]} logo`}
-            />
+            <div className={"relative w-fit"}>
+              <img
+                className={"rounded-xl w-96 peer "}
+                src={club["logo"]}
+                alt={`${club["name"]} logo`}
+              />
+              {adminMenuOpened ? (
+                <div
+                  className={
+                    "bg-accent peer-hover:block absolute top-0 hidden w-full h-full hover:block opacity-30"
+                  }
+                >
+                  <button
+                    onClick={handleIconChange}
+                    className={"w-full h-full"}
+                  >
+                    Change Icon
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
 
           {/*info*/}
