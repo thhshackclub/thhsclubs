@@ -59,6 +59,7 @@ function SignUp() {
     );
 
     if (error) {
+      // @ts-ignore
       return toast.error(error);
     }
 
