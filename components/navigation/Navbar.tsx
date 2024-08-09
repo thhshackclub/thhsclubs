@@ -90,14 +90,11 @@ export default function Navbar() {
                         {loading ? "" : <MemberName displayOnly uid={user} />}
                       </span>
                     </p>
+                    <a href={"/profile"} className={"mt-3"}>
+                      Profile
+                    </a>
                     <button className={"w-fit"} onClick={handleLogOut}>
-                      <span
-                        className={
-                          "border-2 border-light bg-accent px-2 py-1 rounded-md text-right hover:text-primary"
-                        }
-                      >
-                        Log Out
-                      </span>
+                      Log Out
                     </button>
                   </div>
                 ) : (
