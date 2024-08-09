@@ -112,7 +112,7 @@ export default function Page({
           <h2 className={"text-center"}>Share the Attendance!</h2>
           <div className={"flex justify-center"}>
             <QRCode
-              value={`https://thhsclubs.vercel.app/${params.slug}/${params.meeting}`}
+              value={`https://thhsclubs.vercel.app/clubs/${params.slug}/${params.meeting}`}
             />
           </div>
         </section>
