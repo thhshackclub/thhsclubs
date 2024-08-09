@@ -51,17 +51,17 @@ export default function Home() {
             Login
           </a>
         </div>
-        <div className={"flex justify-center mt-20 flex-col"}>
-          <p className={"text-center"}>No time?</p>
-          <a
-            href={"/clubs"}
-            className={
-              "text-center w-fit mx-auto text-xl border-2 rounded-md p-2 hover:bg-accent hover:border-primary transition"
-            }
-          >
-            Browse now
-          </a>
-        </div>
+        {/*<div className={"flex justify-center mt-20 flex-col"}>*/}
+        {/*  <p className={"text-center"}>No time?</p>*/}
+        {/*  <a*/}
+        {/*    href={"/clubs"}*/}
+        {/*    className={*/}
+        {/*      "text-center w-fit mx-auto text-xl border-2 rounded-md p-2 hover:bg-accent hover:border-primary transition"*/}
+        {/*    }*/}
+        {/*  >*/}
+        {/*    Browse now*/}
+        {/*  </a>*/}
+        {/*</div>*/}
       </main>
     );
   } else redirect("/clubs");

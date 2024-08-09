@@ -6,6 +6,7 @@ import { number } from "prop-types";
 import { collection, deleteDoc, doc, query, where } from "firebase/firestore";
 import db from "@/firebase/firestore/firestore";
 import { arrayRemove, getDoc, getDocs, updateDoc } from "@firebase/firestore";
+import toast, { Toaster } from "react-hot-toast";
 
 function SignUp() {
   const [email, setEmail] = React.useState("");
@@ -24,7 +25,7 @@ function SignUp() {
 
     // @ts-ignore
     if (osis.toString().length !== 9) {
-      alert(
+      toast.error(
         "Error in creating your account. OSIS number must be 9 digits long."
       );
       return;
@@ -34,14 +35,18 @@ function SignUp() {
     if (codeQuery.exists()) {
       const validCodes = codeQuery.data()["validCodes"];
       if (validCodes.indexOf(accessCode) === -1) {
-        return alert("Error in creating your account. Access code is invalid.");
+        return toast.error(
+          "Error in creating your account. Access code is invalid."
+        );
       } else {
         await updateDoc(doc(db, "accessCodes", "codes"), {
           validCodes: arrayRemove(accessCode),
         });
       }
     } else
-      return alert("Error in creating your account. Please try again later.");
+      return toast.error(
+        "Error in creating your account. Please try again later."
+      );
 
     const { result, error } = await signUp(
       email,
@@ -54,7 +59,8 @@ function SignUp() {
     );
 
     if (error) {
-      return alert(error);
+      // @ts-ignore
+      return toast.error(error);
     }
 
     // else successful
@@ -65,6 +71,7 @@ function SignUp() {
 
   return (
     <div className="wrapper">
+      <Toaster />
       <div className="form-wrapper">
         <h1 className="text-center my-6">Sign Up</h1>
         <form onSubmit={handleForm} className="form px-4 flex flex-col gap-4">
