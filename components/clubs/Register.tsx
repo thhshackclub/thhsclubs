@@ -5,6 +5,7 @@ import getLoggedIn from "@/components/getLoggedIn";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import MemberName from "@/components/MemberName";
+import toast from "react-hot-toast";
 
 export default function Register(props: { clubId: string }) {
   const [registered, setRegistered] = useState(false);
@@ -41,10 +42,10 @@ export default function Register(props: { clubId: string }) {
     })
       .then(() => {
         setRegistered(true);
-        alert("Registered!");
+        toast.success("Registered!");
       })
       .catch((e) => {
-        alert(e);
+        toast.error(e);
       });
   }
 

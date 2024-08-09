@@ -16,7 +16,7 @@ export default function Footer() {
       </a>
 
       <p className={"text-right"}>
-        <p>Pre-release 0.0.1</p>
+        <p>Version 0.1.5</p>
         Created and maintained by{" "}
         <a href={"https://instagram.com/thhs.hackclub"}>THHS Hack Club</a>.
       </p>

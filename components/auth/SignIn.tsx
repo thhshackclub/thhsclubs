@@ -2,6 +2,8 @@
 import React from "react";
 import signIn from "@/firebase/auth/signin";
 import { useRouter } from "next/navigation";
+import { getFirebaseErrorMessage } from "@/firebase/getFirebaseErrorMessage";
+import toast, { Toaster } from "react-hot-toast";
 
 function SignIn() {
   const [email, setEmail] = React.useState("");
@@ -14,7 +16,9 @@ function SignIn() {
     const { result, error } = await signIn(email, password);
 
     if (error) {
-      return console.log(error);
+      // return alert(getFirebaseErrorMessage(error));
+      // console.log(error, getFirebaseErrorMessage(error));
+      return toast.error(error);
     }
 
     // else successful
@@ -23,6 +27,7 @@ function SignIn() {
   };
   return (
     <div className="wrapper">
+      <Toaster />
       <div className="form-wrapper">
         <h1 className="text-center my-6">Sign In</h1>
         <form onSubmit={handleForm} className="form px-4 flex flex-col gap-4">
