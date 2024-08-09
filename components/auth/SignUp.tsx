@@ -15,7 +15,7 @@ function SignUp() {
   const [lName, setLName] = React.useState("");
   const [osis, setOsis] = React.useState<number>();
   const [accountType, setAccountType] = React.useState("student");
-  const [grade, setGrade] = React.useState(0);
+  const [grade, setGrade] = React.useState(9);
   const [accessCode, setAccessCode] = React.useState("");
 
   const router = useRouter();

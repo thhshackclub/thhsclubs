@@ -77,7 +77,7 @@ export default function Admins(props: {
               //   admin menu opened
               <li key={i} className={"grid grid-cols-1 lg:flex md:gap-2"}>
                 <p className={"text-xl flex"}>
-                  <MemberName uid={adminId["uid"]} displayOnly />
+                  <MemberName uid={adminId["uid"]} />
 
                   {/*for small & md displays*/}
                   <button
@@ -117,7 +117,7 @@ export default function Admins(props: {
               //   admin menu not opened
               <li key={i} className={"flex items-baseline gap-2"}>
                 <p className={"text-xl"}>
-                  <MemberName uid={adminId["uid"]} displayOnly />
+                  <MemberName uid={adminId["uid"]} />
                 </p>
                 <span>{adminId["title"]}</span>
               </li>
