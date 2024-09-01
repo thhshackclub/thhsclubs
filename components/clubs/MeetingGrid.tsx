@@ -23,7 +23,9 @@ export default function MeetingGrid(props: {
       html(
         `<a class="px-2" href='/clubs/${props.clubId}/${moment(
           meeting["date"]
-        ).format("MMDDYY")}'>${moment(meeting["date"]).format("MM/DD/YY")}</a>`
+        ).format("MMDDYY")}' id=${moment(meeting["date"]).format(
+          "MMDDYY"
+        )}>${moment(meeting["date"]).format("MM/DD/YY")}</a>`
       )
     );
   });

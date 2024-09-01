@@ -3,6 +3,7 @@ import { Save } from "react-feather";
 import { doc, updateDoc } from "@firebase/firestore";
 import db from "@/firebase/firestore/firestore";
 import { arrayRemove } from "@firebase/firestore/lite";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function AdminTitleInput(props: {
   initialTitle: string;
@@ -13,11 +14,11 @@ export default function AdminTitleInput(props: {
 
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    console.log("submit");
+    // console.log("submit");
     await updateDoc(doc(db, "clubs", props.clubId, "members", props.uid), {
       title: title,
     })
-      .then(() => alert("Title updated!"))
+      .then(() => toast.success("Title updated!"))
       .catch((e) => alert(e));
   }
 
@@ -31,7 +32,7 @@ export default function AdminTitleInput(props: {
         }}
         required
       />
-      <button onClick={handleSubmit} className={"border-0 p-0"}>
+      <button onClick={handleSubmit} className={"no-bg border-0 p-0"}>
         <Save className={"hover:stroke-primary"} />
       </button>
     </div>

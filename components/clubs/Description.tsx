@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { doc, updateDoc } from "@firebase/firestore";
 import db from "@/firebase/firestore/firestore";
 import moment from "moment/moment";
+import toast from "react-hot-toast";
 
 export default function Description(props: {
   clubId: string;
@@ -15,8 +16,8 @@ export default function Description(props: {
     await updateDoc(doc(db, "clubs", props.clubId), {
       description: editedDescription,
     })
-      .then(() => alert("Description updated!"))
-      .catch((error) => alert("Error updating description: " + error));
+      .then(() => toast.success("Description updated!"))
+      .catch((error) => toast.error("Error updating description: " + error));
   }
 
   // reset descripion when closed

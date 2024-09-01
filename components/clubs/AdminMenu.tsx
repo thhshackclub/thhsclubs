@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import write from "@/firebase/firestore/write";
 import {
   arrayUnion,
@@ -16,33 +16,40 @@ import { arrayRemove } from "@firebase/firestore/lite";
 import { ChevronDown, ChevronUp, HelpCircle } from "react-feather";
 import MeetingGrid from "@/components/clubs/MeetingGrid";
 import { PlusSquare } from "react-feather";
+import toast from "react-hot-toast";
 
 export default function AdminMenu(props: {
   clubId: string;
   faculty?: boolean;
 }) {
-  const [meetingDate, setMeetingDate] = useState(new Date());
+  const [meetingDate, setMeetingDate] = useState("");
   const [meetingList, setMeetingList] = useState([]);
   const [members, setMembers] = useState([]);
-
+  const dateInputRef = useRef(null);
   const [showMembers, setShowMembers] = useState(false);
 
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    await setDoc(
-      doc(
-        db,
-        "clubs",
-        props.clubId,
-        "attendance",
-        moment(meetingDate).format("MMDDYY")
-      ),
-      {
-        date: meetingDate,
-        present: [],
-      }
-    );
-    getMeetingList();
+    console.log(document.getElementById(moment(meetingDate).format("MMDDYY")));
+    if (document.getElementById(moment(meetingDate).format("MMDDYY")) == null) {
+      await setDoc(
+        doc(
+          db,
+          "clubs",
+          props.clubId,
+          "attendance",
+          moment(meetingDate).format("MMDDYY")
+        ),
+        {
+          date: meetingDate,
+          present: [],
+        }
+      );
+      getMeetingList();
+      toast.success("Meeting added!");
+    } else {
+      toast.error("Meeting already exists");
+    }
   }
 
   async function getMeetingList() {
@@ -53,7 +60,7 @@ export default function AdminMenu(props: {
 
     docSnap.forEach((doc) => {
       hold.push({
-        date: doc.data()["date"].toDate().toString(),
+        date: doc.data()["date"],
         present: doc.data()["present"],
       });
     });
@@ -125,29 +132,14 @@ export default function AdminMenu(props: {
         <h2 className={""}>Add meeting date</h2>
         <div className={"flex justify-center md:justify-left"}>
           <input
-            className={`form__input  ${
-              !meetingDate && "form__input--incomplete"
-            }               
-`}
-            id="fromDate"
-            name="fromDate"
-            type="date"
-            autoComplete="off"
-            value={
-              meetingDate.getFullYear().toString() +
-              "-" +
-              //   @ts-ignore
-              (meetingDate.getMonth() + 1).toString().padStart(2, 0) +
-              "-" +
-              //   @ts-ignore
-              meetingDate.getDate().toString().padStart(2, 0)
-            }
+            type={"date"}
+            ref={dateInputRef}
             onChange={(e) => {
-              setMeetingDate(new Date(e.target.value));
+              setMeetingDate(e.target.value);
             }}
           />
-          <button className={"border-0 p-0"}>
-            <PlusSquare />
+          <button className={"border-0 my-auto no-bg p-0"}>
+            <PlusSquare className={"hover:stroke-primary"} />
           </button>
         </div>
       </form>

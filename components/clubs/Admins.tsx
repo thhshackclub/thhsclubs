@@ -20,6 +20,7 @@ import {
 } from "@firebase/firestore";
 import { update } from "@firebase/database";
 import AdminTitleInput from "@/components/clubs/AdminTitleInput";
+import toast from "react-hot-toast";
 
 export default function Admins(props: {
   clubId: string;
@@ -45,7 +46,9 @@ export default function Admins(props: {
       // @ts-ignore
       updateDoc(doc(db, `clubs/${props.clubId}`), {
         admins: arrayUnion(d.id),
-      }).then(() => alert("Admin added! Please refresh to see your changes."));
+      }).then(() =>
+        toast.success("Admin added! Please refresh to see your changes.")
+      );
     });
   }
 
@@ -60,7 +63,7 @@ export default function Admins(props: {
         });
       })
       .then(() => {
-        alert("Admin removed! Please refresh to see your changes.");
+        toast.success("Admin removed! Please refresh to see your changes.");
       })
       .catch((e) => {
         alert(e);
@@ -104,13 +107,15 @@ export default function Admins(props: {
                 </div>
                 {/*for lg+ displays*/}
                 <button
-                  className={"hover:text-primary border-0 p-0 hidden lg:flex"}
+                  className={
+                    "hover:text-primary border-0 p-0 hidden no-bg lg:flex"
+                  }
                   onClick={(e) => {
                     e.preventDefault();
                     removeAdmin(adminId["uid"]);
                   }}
                 >
-                  <Trash className={"hover:stroke-primary"} />
+                  <Trash className={"hover:stroke-primary my-auto"} />
                 </button>
               </li>
             ) : (
@@ -127,7 +132,7 @@ export default function Admins(props: {
       })}
       {props.adminMenuOpened ? (
         <div className={"border-t-2 mt-8 pt-2 flex flex-col lg:flex-row gap-2"}>
-          <h3>Add Club Executives</h3>
+          <h3 className={"my-auto"}>Add Club Executives</h3>
           <input
             placeholder={"OSIS Number"}
             type={"number"}
@@ -141,8 +146,10 @@ export default function Admins(props: {
               onChange={(e) => setTitle(e.target.value)}
             />
 
-            <button className={"border-0"} onClick={handleSubmit}>
-              <PlusSquare />
+            <button className={"border-0 no-bg "} onClick={handleSubmit}>
+              <PlusSquare
+                className={"hover:stroke-primary transition-colors"}
+              />
             </button>
           </div>
         </div>

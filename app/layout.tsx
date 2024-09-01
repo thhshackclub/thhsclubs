@@ -5,6 +5,7 @@ import { AuthContextProvider } from "@/context/AuthContext";
 import Navbar from "@/components/navigation/Navbar";
 import getLoggedIn from "@/components/getLoggedIn";
 import Footer from "@/components/navigation/Footer";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
       <body className={"min-h-screen relative"}>
         <div className={"pb-20"}>
           <AuthContextProvider>
+            <Toaster />
             <Navbar />
             {children}
             <Footer />

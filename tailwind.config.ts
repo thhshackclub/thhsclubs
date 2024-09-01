@@ -12,17 +12,12 @@ const config: Config = {
         sans: ["var(--font-inter)"],
         display: ["var(--font-syne)"],
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
       colors: {
-        bg: "#f78850",
-        accent: "#feb500",
-        primary: "#69200d",
-        light: "#f6f8fe",
-        dark: "#101C3A",
+        bg: "#E6E6E6",
+        primary: "#8F250C",
+        accent: "#FF8552",
+        light: "#E6E6E6",
+        dark: "#06070E",
       },
     },
   },
