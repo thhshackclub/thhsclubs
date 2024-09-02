@@ -4,6 +4,7 @@ import tagList from "@/components/tags";
 import React, { useState } from "react";
 import { doc, updateDoc } from "@firebase/firestore";
 import db from "@/firebase/firestore/firestore";
+import toast from "react-hot-toast";
 export default function Tags(props: {
   clubId: string;
   tagList: any[];
@@ -16,8 +17,8 @@ export default function Tags(props: {
     await updateDoc(doc(db, "clubs", props.clubId), {
       tags: tags,
     })
-      .then(() => alert("Tags updated!"))
-      .catch((error) => alert("Error updating tag: " + error));
+      .then(() => toast.success("Tags updated!"))
+      .catch((error) => toast.error("Error updating tag: " + error));
   }
 
   if (!props.adminMenuOpened) {

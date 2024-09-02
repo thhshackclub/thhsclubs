@@ -156,7 +156,7 @@ export default function AdminMenu(props: {
         <div className={"flex justify-center md:justify-start"}>
           <h1 className={"inline"}>Members</h1>
           <button
-            className={"border-0 p-0"}
+            className={"border-0 p-0 no-bg"}
             onClick={() => setShowMembers(!showMembers)}
           >
             {showMembers ? <ChevronUp /> : <ChevronDown />}

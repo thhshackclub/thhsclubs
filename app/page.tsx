@@ -16,12 +16,12 @@ export default function Home() {
 
   if (!loggedIn) {
     return (
-      <main className="h-dvh bg-[url('/bg.svg')] bg-cover">
+      <main className="h-dvh ">
         <div className={"flex justify-center py-10"}>
           <h1 className={"text-7xl"}>
             THHS
             <br />
-            Clubs
+            Hawktivities
           </h1>
           <img src={"/logo.png"} alt={"THHS Clubs"} className={"h-36"} />
         </div>
@@ -37,7 +37,7 @@ export default function Home() {
           <a
             href={"/signup"}
             className={
-              "text-center text-xl border-2 p-2 rounded-md hover:bg-accent hover:border-primary transition"
+              "text-center text-xl mt-1 w-full border-2 p-2 rounded-md bg-accent hover:border-primary transition shadow-2xl"
             }
           >
             Sign Up
@@ -45,7 +45,7 @@ export default function Home() {
           <a
             href={"/signin"}
             className={
-              "text-center text-xl border-2 rounded-md p-2 hover:bg-accent hover:border-primary transition"
+              "text-center text-xl mt-1 w-full border-2 p-2 rounded-md bg-accent hover:border-primary transition shadow-2xl"
             }
           >
             Login
