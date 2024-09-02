@@ -213,7 +213,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                 onClick={() => {
                   setAdminMenuOpened(!adminMenuOpened);
                 }}
-                className={"border-2 p-2 bg-amber-300"}
+                className={"border-2 p-2"}
               >
                 Edit Club
               </button>
