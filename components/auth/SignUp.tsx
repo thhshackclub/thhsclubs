@@ -7,6 +7,8 @@ import { collection, deleteDoc, doc, query, where } from "firebase/firestore";
 import db from "@/firebase/firestore/firestore";
 import { arrayRemove, getDoc, getDocs, updateDoc } from "@firebase/firestore";
 import toast, { Toaster } from "react-hot-toast";
+import { HelpCircle } from "react-feather";
+import { Tooltip } from "react-tooltip";
 
 function SignUp() {
   const [email, setEmail] = React.useState("");
@@ -169,7 +171,19 @@ function SignUp() {
             htmlFor="accessCode"
             className={"flex flex-col mx-auto md:grid md:w-fit"}
           >
-            <p>Access Code</p>
+            <div className={"flex"}>
+              <p>Access Code</p>
+              <a
+                data-tooltip-id={"accesscode"}
+                data-tooltip-content={
+                  "This was given out during homeroom on the first week of school. Please contact thhs.hackclub@gmail.com if you need help."
+                }
+                data-tooltip-place={"top"}
+              >
+                <HelpCircle width={16} className={"ml-2"} />
+              </a>
+            </div>
+            <Tooltip id={"accesscode"} />
             <input
               value={accessCode}
               onChange={(e) => setAccessCode(e.target.value)}

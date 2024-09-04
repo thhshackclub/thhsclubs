@@ -71,7 +71,7 @@ export default function Navbar() {
           {/*@ts-ignore*/}
           <div className={"flex gap-2"} ref={dropDown}>
             <button
-              className={"border-0 p-0 hover:bg-transparent"}
+              className={"border-0 p-0 no-bg"}
               onClick={() => setProfileDropdown(!profileDropdown)}
             >
               <User className={"stroke-primary"} />
@@ -81,7 +81,7 @@ export default function Navbar() {
                 {isSignedIn ? (
                   <div
                     className={
-                      "absolute top-20 px-3 py-6 mt-1 rounded-b-lg right-2 w-48 flex flex-col text-right bg-bg"
+                      "absolute top-20 px-3 py-6 mt-1 rounded-b-lg right-2 w-48 flex flex-col text-right bg-bg border-2"
                     }
                   >
                     <p>
@@ -90,10 +90,10 @@ export default function Navbar() {
                         {loading ? "" : <MemberName displayOnly uid={user} />}
                       </span>
                     </p>
-                    <button className={"w-fit"} onClick={handleLogOut}>
+                    <button className={"w-fit no-bg"} onClick={handleLogOut}>
                       <span
                         className={
-                          "border-2 border-light bg-accent px-2 py-1 rounded-md text-right hover:text-primary"
+                          "bg-accent px-2 py-1 rounded-md text-right hover:text-primary"
                         }
                       >
                         Log Out

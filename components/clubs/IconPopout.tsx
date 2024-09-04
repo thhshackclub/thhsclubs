@@ -14,7 +14,7 @@ export default function IconPopout(props: { clubId: string }) {
       logo: url,
     })
       .then(() => {
-        toast.success("Icon updated!");
+        toast.success("Icon updated! Refresh to see your changes.");
       })
       .catch((e) => {
         toast.error(`Something went wrong. Please try again \n ${e}`);
@@ -22,12 +22,22 @@ export default function IconPopout(props: { clubId: string }) {
   }
 
   return (
-    <div className={"absolute right-1/2 translate-x-1/2 bg-bg p-2 rounded-md"}>
+    <div
+      className={
+        "absolute z-30 right-1/2 translate-x-1/2 bg-bg p-2 rounded-md border-2 border-black"
+      }
+    >
       <Toaster />
       <div className={"flex"}>
         <label>
           Set new icon URL
           <p>Must be in .jpg or .png format</p>
+          <p>
+            {" "}
+            We recommend uploading your image to{" "}
+            <a href={"https://imgur.com"}>imgur</a> and right clicking on your
+            upload, then pressing {`"Copy image address"`}.
+          </p>
           <input
             type={"url"}
             value={url}

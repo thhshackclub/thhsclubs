@@ -1,6 +1,7 @@
 "use client";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ export default function Page() {
       .then(() => {
         // Password reset email sent!
         // ..
+        toast.success("Password reset email sent! Please check your email.");
       })
       .catch((error) => {
         const errorCode = error.code;

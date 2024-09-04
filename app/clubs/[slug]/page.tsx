@@ -15,6 +15,7 @@ import Tags from "@/components/clubs/Tags";
 import Admins from "@/components/clubs/Admins";
 import Links from "@/components/clubs/Links";
 import IconPopout from "@/components/clubs/IconPopout";
+import MemberApprovalToggle from "@/components/clubs/MemberApprovalToggle";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [club, setClub] = useState<{
@@ -182,6 +183,12 @@ export default function Page({ params }: { params: { slug: string } }) {
               clubId={club["url"]}
               adminMenuOpened={adminMenuOpened}
             />
+
+            {adminMenuOpened ? (
+              <MemberApprovalToggle clubId={club["url"]} />
+            ) : (
+              ""
+            )}
           </div>
 
           <div>
