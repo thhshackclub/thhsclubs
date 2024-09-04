@@ -36,7 +36,7 @@ export default function IconPopout(props: { clubId: string }) {
             {" "}
             We recommend uploading your image to{" "}
             <a href={"https://imgur.com"}>imgur</a> and right clicking on your
-            upload, then pressing 'Copy image address'.
+            upload, then pressing {`"Copy image address"`}.
           </p>
           <input
             type={"url"}

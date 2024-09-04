@@ -1,7 +1,6 @@
 "use client";
 import {
   arrayRemove,
-  arrayUnion,
   doc,
   getDoc,
   getDocs,
@@ -59,8 +58,8 @@ export default function Page({ params }: { params: { slug: string } }) {
   }
 
   useEffect(() => {
-    searchClubInfo();
-    searchAdmins();
+    searchClubInfo().then((r) => "");
+    searchAdmins().then((r) => "");
   }, []);
 
   async function updateMemberStatus(uid: string, approved: boolean) {
