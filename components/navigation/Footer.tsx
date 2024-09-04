@@ -16,7 +16,11 @@ export default function Footer() {
       </a>
 
       <p className={"text-right"}>
+<<<<<<< Updated upstream
         <p>Version 0.1.5</p>
+=======
+        <p>Version 0.2.1</p>
+>>>>>>> Stashed changes
         Created and maintained by{" "}
         <a href={"https://instagram.com/thhs.hackclub"}>THHS Hack Club</a>.
       </p>

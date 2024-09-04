@@ -15,6 +15,7 @@ import React, { useState } from "react";
 import { updateDoc } from "@firebase/firestore";
 import { collection, doc } from "firebase/firestore";
 import db from "@/firebase/firestore/firestore";
+import toast from "react-hot-toast";
 
 const iconList = [
   { label: <Globe />, value: "globe" },
@@ -51,8 +52,8 @@ export default function LinkInput(props: {
       url: newURL,
       icon: newIcon,
     })
-      .then(() => alert("Link updated!"))
-      .catch((error) => alert("Error updating link: " + error));
+      .then(() => toast.success("Link updated! Refresh to see your changes."))
+      .catch((error) => toast.error("Error updating link: " + error));
   }
 
   return (
