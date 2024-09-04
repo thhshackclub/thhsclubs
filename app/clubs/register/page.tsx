@@ -14,6 +14,7 @@ import {
   setDoc,
   updateDoc,
 } from "@firebase/firestore";
+import toast from "react-hot-toast";
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -52,24 +53,29 @@ export default function Page() {
     e.preventDefault();
     // console.log(name, description, logo);
     if (url == "register") {
-      alert(`Invalid URL. Club URL cannot be "${url}".`);
+      toast.error(`Invalid URL. Club URL cannot be "${url}".`);
       return;
     } else {
       if (await checkDuplicate()) {
-        return alert(`Invalid URL. Club URL "${url}" already exists.`);
+        return toast.error(`Invalid URL. Club URL "${url}" already exists.`);
       }
     }
     const codeQuery = await getDoc(doc(db, "accessCodes", "codes"));
     if (codeQuery.exists()) {
       const validCodes = codeQuery.data()["clubCreationCodes"];
       if (validCodes.indexOf(accessCode) === -1) {
-        return alert("Error in creating your club. Access code is invalid.");
+        return toast.error(
+          "Error in creating your club. Access code is invalid."
+        );
       } else {
         await updateDoc(doc(db, "accessCodes", "codes"), {
           clubCreationCodes: arrayRemove(accessCode),
         });
       }
-    } else return alert("Error in creating your club. Please try again later.");
+    } else
+      return toast.error(
+        "Error in creating your club. Please try again later."
+      );
 
     await setDoc(doc(db, "clubs", url), {
       name: name.trim(),
@@ -81,8 +87,8 @@ export default function Page() {
     }).then((err) => {
       // @ts-ignore
       if (err) {
-        alert(err);
-      } else alert("Club Registered");
+        toast.error("Error: " + err);
+      } else toast.success("Club Registered");
     });
     await setDoc(doc(db, `clubs/${url}/members`, uid), {
       role: "admin",
