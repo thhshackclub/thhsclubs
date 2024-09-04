@@ -14,6 +14,8 @@ import {
   setDoc,
   updateDoc,
 } from "@firebase/firestore";
+import { Tooltip } from "react-tooltip";
+import { HelpCircle } from "react-feather";
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -102,7 +104,7 @@ export default function Page() {
     return (
       <section>
         <h1>Register a Club</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={"flex flex-col gap-6"}>
           <label
             htmlFor="name"
             className={"flex flex-col mx-auto md:grid md:w-fit"}
@@ -141,7 +143,19 @@ export default function Page() {
             htmlFor="logo"
             className={"flex flex-col mx-auto md:grid md:w-fit"}
           >
-            <p>Logo URL</p>
+            <div className={"flex"}>
+              <p>Logo URL</p>
+              <a
+                data-tooltip-place={"top"}
+                data-tooltip-id={"url"}
+                data-tooltip-content={
+                  "Must be in .jpg or .png format. We recommend uploading your image to imgur.com. Then, right clicking on your upload and press 'Copy image address'."
+                }
+              >
+                <HelpCircle width={16} className={"ml-2"} />
+              </a>
+            </div>
+            <Tooltip id={"url"} />
             <input
               required
               type="url"
@@ -159,6 +173,7 @@ export default function Page() {
             className={"flex flex-col mx-auto md:grid md:w-fit"}
           >
             <p>Tags</p>
+
             <Select
               isMulti
               isSearchable
@@ -174,25 +189,39 @@ export default function Page() {
             htmlFor="description"
             className={"flex flex-col mx-auto md:grid md:w-fit"}
           >
-            <p>Club URL</p>
-            thhsclubs.com/
-            <input
-              required
-              type="text"
-              name="clubDescription"
-              className={"rounded-md border-2 py-1 pl-1"}
-              value={url}
-              onChange={(e) => {
-                setUrl(e.target.value);
-              }}
-              placeholder="Club URL"
-            />
+            <p>Club URL</p>{" "}
+            <div className={"flex"}>
+              <p className={"my-auto"}>thhshawktivities.org/</p>
+              <input
+                required
+                type="text"
+                name="clubDescription"
+                className={"rounded-md border-2 py-1 pl-1"}
+                value={url}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                }}
+                placeholder="Club URL"
+              />
+            </div>
           </label>
           <label
             htmlFor="accessCode"
             className={"flex flex-col mx-auto md:grid md:w-fit"}
           >
-            <p>Club Creation Code</p>
+            <div className={"flex"}>
+              <p>Club Creation Code</p>
+              <a
+                data-tooltip-place={"top"}
+                data-tooltip-id={"creationcode"}
+                data-tooltip-content={
+                  "This was given out during the first Club Presidents meeting. Please contact thhs.hackclub@gmail.com if you need help."
+                }
+              >
+                <HelpCircle width={16} className={"ml-2"} />
+              </a>
+            </div>
+            <Tooltip id={"creationcode"} />
             <input
               value={accessCode}
               onChange={(e) => setAccessCode(e.target.value)}

@@ -22,6 +22,10 @@ export default function Page() {
   return (
     <div className="px-10 text-center p-4">
       <h1>Discover Clubs</h1>
+      <p>
+        Are you a club president and don't see your club?{" "}
+        <a href={"/clubs/register"}>Add your club now</a>.
+      </p>
       <section className={"grid gap-4 xl:grid-cols-3 lg:grid-cols-2"}>
         {clubs.map((club, i) => {
           if (!club["testing"])
