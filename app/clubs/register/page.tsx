@@ -101,6 +101,7 @@ export default function Page() {
       icon: "externalLink",
       url: "https://google.com",
     });
+    //   TODO: redirect to club page
   }
 
   if (isSignedIn) {
