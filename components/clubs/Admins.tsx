@@ -33,7 +33,7 @@ export default function Admins(props: {
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     // console.log("submit");
-    const q = query(collection(db, "users"), where("OSIS", "==", newAdmin));
+    const q = query(collection(db, "users"), where("email", "==", newAdmin));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((d) => {
       setDoc(doc(db, `clubs/${props.clubId}/members`, d.id), {
@@ -134,8 +134,8 @@ export default function Admins(props: {
         <div className={"border-t-2 mt-8 pt-2 flex flex-col lg:flex-row gap-2"}>
           <h3 className={"my-auto"}>Add Club Executives</h3>
           <input
-            placeholder={"OSIS Number"}
-            type={"number"}
+            placeholder={"NYC Email"}
+            type={"email"}
             value={newAdmin}
             onChange={(e) => setNewAdmin(e.target.value)}
           />

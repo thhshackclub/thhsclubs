@@ -55,7 +55,7 @@ function SignUp() {
       password,
       fName,
       lName,
-      osis,
+      // osis,
       accountType,
       grade
     );
@@ -72,6 +72,7 @@ function SignUp() {
   };
 
   return (
+    // @ts-ignore
     <div className="wrapper">
       <Toaster />
       <div className="form-wrapper">
@@ -131,7 +132,7 @@ function SignUp() {
               placeholder={"Last Name"}
             />
           </label>
-          <label
+          {/* <label
             htmlFor={"osis"}
             className={"flex flex-col mx-auto md:grid md:w-fit"}
           >
@@ -153,7 +154,7 @@ function SignUp() {
               type={"number"}
               placeholder={"OSIS Number"}
             />
-          </label>
+          </label> */}
           <label
             htmlFor={"Grade"}
             className={"flex flex-col mx-auto md:grid md:w-fit"}

@@ -90,6 +90,7 @@ export default function Navbar() {
                         {loading ? "" : <MemberName displayOnly uid={user} />}
                       </span>
                     </p>
+                    {/*TODO: LOG OUT DOES NOT BUTTON*/}
                     <button className={"w-fit no-bg"} onClick={handleLogOut}>
                       <span
                         className={
